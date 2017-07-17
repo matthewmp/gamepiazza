@@ -3,7 +3,7 @@ import React from 'react';
 import LoginHOC from 'react-facebook-login-hoc'
 
 const configureLoginProps = {
-  scope: 'email',
+  scope: 'public_profile, email',
   xfbml: false,
   cookie: false,
   version: 2.6,
