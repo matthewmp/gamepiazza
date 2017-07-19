@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js" ></script>
+   
+
+
+    
+    <title>Game Piazza</title>
+  </head>
+  <body>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    
+    <!-- <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '319335501841225',
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v2.8'
+        });
+        
+        FB.getLoginStatus(function(response) {
+            FB.api('/me?fields=name,email,id', function(response) {
+               console.log(response);
+             });
+            statusChangeCallback(response);
+        });   
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+
+      function statusChangeCallback(response){
+        if(response.status === 'connected'){
+          console.log('Logged In');
+          console.log(response)
+        }
+        else {
+          console.log('Not Logged In');
+        }
+      }
+
+
+      function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+          statusChangeCallback(response);
+        });
+      }
+    </script>
+     
+    
+
+
+    <fb:login-button 
+      data-auto-logout-link=true
+      scope="public_profile,email"
+      onlogin="checkLoginState();">
+    </fb:login-button> -->
+   
+
+    <div id="root"></div>
+    
+  </body>
+</html>

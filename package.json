@@ -1,23 +1,25 @@
 {
   "name": "gamepiazza",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
   "dependencies": {
     "express": "^4.15.3",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "react-facebook-login": "^3.6.2",
-    "react-facebook-login-component": "^0.8.0",
-    "react-facebook-login-hoc": "^1.1.1",
-    "react-scripts": "1.0.10"
+    "socket.io": "^2.0.3"
   },
+  "devDependencies": {},
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
-  "devDependencies": {
-    "enzyme": "^2.9.1"
-  }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmpal78/gamepiazza.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mmpal78/gamepiazza/issues"
+  },
+  "homepage": "https://github.com/mmpal78/gamepiazza#readme"
 }
