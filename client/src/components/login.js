@@ -4,8 +4,18 @@ import Fb from './fb';
 import mario from '../assets/mario.png'
 import pisa from '../assets/pisa.png'
 import Highscore from './highscore';
+import gameGallery from './gameGallery';
 
 export default class Login extends React.Component{
+	constructor(props){
+		super(props);
+		this.test = this.test.bind(this);
+	}
+
+	test(){
+		console.log('test');
+		this.props.history.push('/game-gallery');
+	}
 	
 
 	render(){
@@ -24,7 +34,10 @@ export default class Login extends React.Component{
 			    
 			    <div className="login">
 			       <Fb />
+			       <div><button onClick={this.test}>Go TO Games</button></div>
 			    </div>
+			   
+
 			  </div>
 			  <Highscore />
 			</section>

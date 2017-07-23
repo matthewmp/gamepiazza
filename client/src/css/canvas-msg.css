@@ -1,0 +1,10 @@
+.canvas-msg{
+	width: 400px;
+	height: 200px;
+	background: red;
+	position: absolute;
+	top: 100px;
+	left: 100px;
+	translateY: -50%;
+	translateX: -50%;
+}

@@ -9,10 +9,8 @@ const initialState = {
 	inplay: false
 }
 
-export const gameReducer = (state=initialState, action) => {
-	if(action.type === actions.LOGIN){
-
-	
+export const gameReducer = (state=initialState, action) => {	
+	if(action.type === actions.LOGIN){		
 		return Object.assign({}, state, {
 			id: action.id,
 			email: action.email,

@@ -5,6 +5,7 @@ import Login from './login';
 import Pong from './pong';
 import gameGallery from './gameGallery';
 
+
 export default class App extends React.Component{
 	constructor(props){
 		super(props);
@@ -17,14 +18,8 @@ export default class App extends React.Component{
 
 	render(){
 	    return (
-	      <Router>	
-	      	<div>	
-		      <Route exact path = '/' component={Login} />
-		      <Route exact path = '/game-gallery' component={gameGallery} />
-		      <Route exact path = '/pong' component={Pong} />
-		      {/*<button onClick={this.loggedIn}>PRESS</button>*/}	
-		    </div>  
-		  </Router>
+	    	<div></div>
+	     
 
 	    )
 	}
