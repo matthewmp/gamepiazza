@@ -4,9 +4,10 @@ import * as actions from '../actions';
 import {connect} from 'react-redux';
 import CanvasMsg from './canvasMsg';
 
+import MessageBoard from './messageBoard';
+
 const io = require('socket.io-client');
 
-//let count = 0;
 export class Pong extends React.Component{
 	constructor(props){
 		super(props);
@@ -15,10 +16,15 @@ export class Pong extends React.Component{
 			inplay: false,
 			player: '',
 			msg: '',
-			showMsg: false
+			showMsg: false,
+			rightScore: 0,
+			leftScore: 0
 		}		
 		this.setInPlay	= this.setInPlay.bind(this);
-		this.setPlayer = this.setPlayer.bind(this);
+		this.setPlayer = this.setPlayer.bind(this);		
+		this.setMsg = this.setMsg.bind(this);
+		this.rightScore = this.rightScore.bind(this);
+		this.leftScore = this.leftScore.bind(this);
 	}
 
 	setInPlay(){
@@ -34,42 +40,66 @@ export class Pong extends React.Component{
 		})
 	}
 
-
-	timeMsg(msg, mili, func){
+	setLeftPlayer(player){
 		this.setState({
-			msg,
-			showMsg: !this.state.showMsg
+			leftPlayer: player
 		})
-
-		setTimeout(function(){
-			this.setState({
-				showMsg: !this.state.showMsg
-			})
-			if(func){
-				func();	
-			}
-			
-		}.bind(this), mili)
 	}
 
+	setRightPlayer(player){
+		this.setState({
+			rightPlayer: player
+		})
+	}
 
+	rightScore(score){
+		this.setState({
+			rightScore: score
+		})		
+	}
 
+	leftScore(score){
+		this.setState({
+			leftScore: score
+		})		
+	}
+
+	setMsg(msg){
+		this.setState({
+			msg			
+		})
+	}
+
+	setShowMsg(){
+		this.setState({
+			showMsg: !this.state.showMsg
+		})
+	}
+
+	// postMessage = () => {			
+	// 	let msg = document.getElementById('message-inp').value;	
+	// 	alert(msg);		
+	// 	//document.getElementsByClassName('group-messages')[0].innerHTML += msg;
+	// 	//socket.emit('message', msg);
+	// }
 
 	componentDidMount(){
 	let socket = io.connect('http://localhost:3000');	
 
 	// Pong Game Code
 	let int;	// setInterval Variable for animation.
-	let frames = 60;  // To set frame rate of animation
+	let frames = 60;  // To set frame rate of animation	
 
 	let canvas = document.getElementById('canvas');
 	let ctx = canvas.getContext('2d');
 
 	const PADDLE_HEIGHT = 150;
 	const PADDLE_WIDTH = 25;
+	const WIN_SCORE = 200;
 
 	let vsComp = false;		// Toggle if user needs to play against computer
-	
+	let ballC = {}; 	// Ball coordinates to send over network
+	let that = this;
 	// Create Ball
 	let ball = {
 		x: canvas.width / 2,
@@ -78,10 +108,12 @@ export class Pong extends React.Component{
 		xs: 0,	// X Speed
 		ys: 0,  // Y Speed
 		c: '#ff0000',
-		score: 0,
+		score: 0,		
 		move: function(){
 			this.x += this.xs;
 			this.y += this.ys;
+			
+			
 			if(this.x - this.r < lpaddle.w){
 				if(this.y > lpaddle.y && this.y  < lpaddle.y + lpaddle.h){
 					this.xs *= -1;
@@ -92,7 +124,9 @@ export class Pong extends React.Component{
                     this.ys = deltaY * 0.025;                                        
 				}
 				else {
-                    rpaddle.score++;
+					rpaddle.score++;
+					that.rightScore(rpaddle.score);	
+					checkWin();
 					this.reset();                                        
 				}
 			}
@@ -106,18 +140,22 @@ export class Pong extends React.Component{
                     this.ys = deltaY * 0.025;                    
 				}
 				else {
-					lpaddle.score++;
+					lpaddle.score++;					
+					that.leftScore(lpaddle.score);
+					checkWin();					
                     this.reset();                                       
 				}
-			}
-			(this.y + this.r >= canvas.height || this.y - this.r <= 0) ? this.ys *= -1 : this.y = this.y;			
+			}//
+			(this.y + this.r >= canvas.height || this.y - this.r <= 0) ? this.ys *= -1 : this.y = this.y;
+			ballC.x = this.x;
+			ballC.y = this.y;
+			socket.emit('ball', ballC);
 		},
 		draw: function(){
-
 			ctx.fillStyle = this.c;
 			ctx.beginPath();
 			ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, true);
-			ctx.fill();
+			ctx.fill();			
 		},
 		reset: function(){
 			this.x = canvas.width / 2;
@@ -131,6 +169,7 @@ export class Pong extends React.Component{
 		y: canvas.height / 2 - PADDLE_HEIGHT / 2,
 		h: PADDLE_HEIGHT,
 		w: PADDLE_WIDTH,
+		score: 0,
 		move: function(x, y){
 			this.x = x;
 			this.y = y;
@@ -146,6 +185,7 @@ export class Pong extends React.Component{
 		y: canvas.height / 2 - PADDLE_HEIGHT / 2,
 		h: PADDLE_HEIGHT,
 		w: PADDLE_WIDTH,
+		score: 0,
 		move: function(x, y){
 			this.x = x;
 			this.y = y;
@@ -173,8 +213,11 @@ export class Pong extends React.Component{
 	function update(){		
 		if(vsComp){
 			computerMovement();
+			ball.move();
 		}
-		ball.move();
+		if(ball.player){
+			ball.move();			
+		}
 	}
 
 	// Render Functions
@@ -184,7 +227,8 @@ export class Pong extends React.Component{
 		ctx.fillRect(0, 0, canvas.width, canvas.height);		
 		ball.draw();
 		lpaddle.draw();
-		rpaddle.draw();		
+		rpaddle.draw();	
+		
 	}
 
 	// Clear Screen
@@ -214,16 +258,30 @@ export class Pong extends React.Component{
 
 	// Reset Game & Scores
 	function resetGame(){
+		vsComp = false;
+		ball.xs = 0;
+		ball.ys = 0
+		ball.reset();
 		rpaddle.score = 0;
 		lpaddle.score = 0;	
+	}
+
+	// Check for win
+	function checkWin(){
+		if(rpaddle.score >= WIN_SCORE || lpaddle.score >= WIN_SCORE){
+			resetGame()
+			alert('Game Over')
+			socket.disconnect();
+			console.clear();
+		}
 	}
 
 	// Game AI			
 	function computerMovement(){        
 	    if(rpaddle.y + PADDLE_HEIGHT / 2 < ball.y - 35){            
-	        rpaddle.y += 15;    
+	        rpaddle.y += 1;    
 	    } else if(rpaddle.y + PADDLE_HEIGHT / 2 > ball.y + 35){
-	        rpaddle.y += -15;
+	        rpaddle.y += -5;
 	    }
 	    
 	}	
@@ -231,52 +289,51 @@ export class Pong extends React.Component{
 	// Begin Animation
 	start() 
 
-
-
-
 	function announceState(state){	
 		socket.emit('state', state);
 	}
 	
+	// Receiv PlayersList from Server
+	socket.on('list', (list) => {	
+		this.setLeftPlayer(list[0])
+		this.setRightPlayer(list[1])
 
-	socket.on('list', (list) => {
-	console.log('Receiving List From Server');
-	let playerList = document.getElementsByClassName('player-list')[0];
-	playerList.innerHTML = '';
-	list.forEach(function(val, ind){
-		let p = document.createElement('p');
-		p.innerHTML  = val;
-		playerList.appendChild(p)
-	});
+		let playerList = document.getElementsByClassName('player-list')[0];
+		playerList.innerHTML = '';
 
+		// Append Players List on Clients
+		list.forEach(function(val, ind){
+			let p = document.createElement('p');
+			p.innerHTML  = val;
+			playerList.appendChild(p)
+		});
+
+		// Set First 2 Players in List as Opponents
 		if(this.state.inplay === false && playerList.querySelectorAll('p')[0].innerHTML === this.state.name){			
-			console.log('player1')
-			
-			playerList.querySelectorAll('p');
-			choosePlayerSide(0);
-			if(playerList.querySelectorAll('p').length === 1){
-				//vsComp = true;
-				let msg = `Begin Playing Computer`
-				
-				this.timeMsg(msg, 3000, beginBall)
-				
-			}
+			console.log('player1')					
+			choosePlayerSide(0);					
 		}
 		else if(this.state.inplay === false && playerList.querySelectorAll('p')[1].innerHTML === this.state.name){
 			console.log('player2')
-			choosePlayerSide(1);
-			socket.emit('challenge');
-			//stop();
-			//resetGame();
-			//this.timeMsg('New Challenger.  BEGIN!', 3000, beginBall)
-		}					
+			// vsComp = false;
+			// resetGame();
+			choosePlayerSide(1);						
+		}	
+
+		if(document.getElementsByClassName('player-list').length === 1 && this.state.inplay){
+				timeMsg('Playing Computer in 3 Seconds', 3000, ['begin']);
+				vsComp = true;
+		} 
+						
 })
 	
+	//  Assign Right / Left Paddle to players and track mouse movements
 	const choosePlayerSide = (player) =>{	 	
 	 	if(player === 0){	 		
 	 		console.log('choosing player 0')
 	 		this.setPlayer(0);
-	 		//console.log(this.props);
+	 		ball.player = 0;
+	 		
 			canvas.addEventListener('mousemove', function(e){
 				let mousePos = calcMousePos(e);			
 				lpaddle.y = mousePos.y - PADDLE_HEIGHT / 2;
@@ -288,55 +345,96 @@ export class Pong extends React.Component{
 	  	else if(player === 1){
 	  		console.log('choosing player 1')
 	 		this.setPlayer(1);
-	 		
+	 		ball.player = 1;	 	
+	 			 	
 			canvas.addEventListener('mousemove', function(e){
 				let mousePos = calcMousePos(e);			
 				rpaddle.y = mousePos.y - PADDLE_HEIGHT / 2;
-				socket.emit('mousePos', mousePos);				
+				socket.emit('mousePos', mousePos);					
 			})	 		
 	 		this.setInPlay();
-	 		console.log('Pong State: ', this.state)			
+	 		console.log('Pong State: ', this.state)	
+
+	 		// Reset Game
+	 		this.setMsg('ALOHA')
+	 			 		
+	 		socket.emit('newplayer')	 			 		
 		}		
 	}
 
 
-socket.on('mousePos', (data)=>{	
-	if(this.state.player === 0){
-		rpaddle.y = data.y - PADDLE_HEIGHT / 2;
+//  Set & Show Messages On All Players Screens
+	const timeMsg = (msg, mili, funcs)=>{
+			this.setMsg(msg);
+			this.setShowMsg();
+			setTimeout(function(){
+				this.setShowMsg();
+				if(funcs){
+					funcs.forEach(function(val){
+						switch(val){
+							case 'begin':
+							beginBall();
+							break;
+
+							case 'reset':
+							resetGame();
+							break;
+						}
+					})
+				}
+			}.bind(this), mili)
 	}
-	else if(this.state.player === 1){
-		lpaddle.y = data.y - PADDLE_HEIGHT / 2;
+
+
+
+	socket.on('mousePos', (data)=>{	
+		if(this.state.player === 0){
+			rpaddle.y = data.y - PADDLE_HEIGHT / 2;
+		}
+		else if(this.state.player === 1){
+			lpaddle.y = data.y - PADDLE_HEIGHT / 2;
+		}
+	})
+
+	socket.on('ball', function(data){	
+		ball.x = data.x;
+		ball.y = data.y;
+	})
+
+	socket.on('test', (data)=>{
+		console.log('SOCKET TEST DATA: ', data)
+		timeMsg(data.msg, data.mili, data.func)		
+	})
+
+	socket.on('newplayer', () => {
+		resetGame();
+		socket.emit('test', {msg: 'Reseting', mili: 4000, func: ['begin']})	
+	})
+
+	socket.on('message', (msg) => {	
+		document.getElementById('message-inp').value = '';
+		let messages = document.getElementsByClassName('message');	
+		if(messages.length >= 10){
+			messages[0].remove();
+		}	
+		let name = this.state.name;			
+		document.getElementById('msg').innerHTML += `<p class="message">${name}: ${msg}</p>`;
+	})
+
+	announceState(this.state);	// Declare Component State to Server and que player list
+	this.socket = socket;
+
+
+	postMessage = () => {			
+		let msg = document.getElementById('message-inp').value;						
+		socket.emit('message', msg);	
 	}
-})
-
-socket.on('ball', function(data){	
-	ball.x = data.x;
-	ball.y = data.y;
-})
-
-const newChallenger = ()=> {
-	console.log('NEW CHALLENGER!!!!!!!!!!')
-	console.log('NEW CHALLENGER!!!!!!!!!!')
-	console.log('NEW CHALLENGER!!!!!!!!!!')
-	stop();
-	resetGame();
-	vsComp = false;
-	this.timeMsg('New Challenger.  BEGIN!', 3000, beginBall)
 }
-
-socket.on('challenge', function(){
-	newChallenger();
-})
-
-announceState(this.state);	// Declare Component State to Server and que player list
-
-}
-
-
 	
 	render(){
-		
-		let msg = (this.state.showMsg) ? <CanvasMsg msg={this.state.msg}/> : undefined;
+
+		let playerScoreClass = (this.state.player) ? 'right-score' : 'left-score';
+		let msg = (this.state.showMsg) ? <CanvasMsg msg={this.state.msg}/> : undefined;		
 		return(	
 
 			<div className="canvas-container">
@@ -348,7 +446,20 @@ announceState(this.state);	// Declare Component State to Server and que player l
 					id="canvas"  
 					ref={(canvas) => { this.canvasRef = canvas; }}>
 				</canvas>
+				<div className="score-board">
+					<div className="left-score">
+						{this.state.leftPlayer}
+					</div>
+					<div className="right-score">
+						{this.state.rightPlayer}
+					</div>
+				</div>	
 				<div className="player-list"></div>
+				
+				<p id="score">{this.state.leftScore}  {this.state.rightScore}</p>
+				<input id='message-inp' />				
+				<button id="btn" onClick={postMessage}>BUtton</button>
+				<div id="msg"></div>
 			</div>
 		)						
 	}

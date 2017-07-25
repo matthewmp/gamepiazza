@@ -1,3 +1,16 @@
 canvas{
 	background: #000;
 }
+
+.score-board{
+	width: 500px;
+	height: 100px;
+}
+
+.left-score{
+	float: left;
+}
+
+.right-score{
+	float: right;
+}

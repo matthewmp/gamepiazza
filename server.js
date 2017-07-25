@@ -28,7 +28,7 @@ function newConnection(socket){
 		}
 		playersList.push(data.name);
 		console.log('New PlayersList: ', playersList);
-		socket.emit('list', playersList)
+		io.sockets.emit('list', playersList)
 	})
 
 	socket.on('mousePos', function(data){
@@ -41,6 +41,18 @@ function newConnection(socket){
 
 	socket.on('challenge', function(){
 		socket.emit('challenge');
+	})
+
+	socket.on('test', function(data){
+		io.sockets.emit('test', data);
+	})
+
+	socket.on('newplayer', () => {
+		io.sockets.emit('newplayer');
+	})
+
+	socket.on('message', function(msg){
+		io.sockets.emit('message', msg);
 	})
 }
 
