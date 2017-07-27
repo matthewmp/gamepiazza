@@ -12,14 +12,13 @@ export const login = (user_info) => ({
   id: user_info.id
 })
 
-export const INPLAY = 'INPLAY';
-export const inplay = (bool) => ({
-	type: INPLAY,
-	bool
-})
 
-export const SET_PLAYER = 'SET_PLAYER';
-export const setPlayer = (player) => ({
-	type: SET_PLAYER,
-	player
-})
+export const saveScore = score_info => dispatch => {
+	// type: SAVE_SCORE,
+	// score: score_info.score,
+	// name: score_info.name,
+	// game: score_info.game
+	// 
+	//alert('Writing to DB: ' + score_info.name + ' ' + score_info.score + ' ' + score_info.game);
+	console.error("ACTIONS");
+}

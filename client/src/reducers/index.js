@@ -17,16 +17,7 @@ export const gameReducer = (state=initialState, action) => {
 			name: action.name
 		});		
 	}
-	else if(action.type === actions.INPLAY){
-		return Object.assign({}, state, {
-			inplay: action.bool
-		})
-	}
-	else if(action.type === actions.SET_PLAYER){
-		Object.assign({}, state, {
-			player: action.player
-		})
-	}
+		
 	else {
 		return state;
 	}

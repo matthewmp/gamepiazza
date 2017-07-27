@@ -22,12 +22,19 @@ function newConnection(socket){
 	});
 
 	socket.on('state', function(data){
+	
 		let index = playersList.indexOf(data.name);
+		console.log(`IndexOf: ${index}, Name: ${data.name}`);
 		if(index >= 0){
 			playersList.splice(index, 1);
+			console.log(`Splicing: ${playersList[index]}`);
 		}
-		playersList.push(data.name);
-		console.log('New PlayersList: ', playersList);
+		if(data.name){
+			playersList.push(data.name);
+			console.log('New PlayersList: ', playersList);	
+		}
+		
+		
 		io.sockets.emit('list', playersList)
 	})
 
@@ -51,8 +58,16 @@ function newConnection(socket){
 		io.sockets.emit('newplayer');
 	})
 
-	socket.on('message', function(msg){
-		io.sockets.emit('message', msg);
+	socket.on('message', function(msg, name){
+		io.sockets.emit('message', msg, name);
+	})
+
+	socket.on('score', (side) => {
+		io.sockets.emit('score', side);
+	})
+
+	socket.on('reset', () => {
+		io.sockets.emit('reset');
 	})
 }
 
