@@ -92,7 +92,10 @@ export class Pong extends React.Component{
 	
 
 	componentDidMount(){
-	let socket = io.connect('http://localhost:3000');	
+	//let socket = io.connect('http://localhost:3000');	
+	let socket = io.connect('http://localhost:3000/pong');	
+
+
 
 	// Pong Game Code
 	let int;	// setInterval Variable for animation.

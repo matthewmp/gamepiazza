@@ -9,8 +9,12 @@ app.use(express.static('static'));
 const socket = require('socket.io');
 const io = socket(server);
 
-io.sockets.on('connection', newConnection);
-io.sockets.on('disconnect', disconnect);
+//io.sockets.on('connection', newConnection);
+let nsp = io.of('/pong');
+nsp.on('connection', function(socket){
+	newConnection(socket);
+})
+
 
 let playersList = [];
 
@@ -18,7 +22,7 @@ function newConnection(socket){
 	console.log('New socker id: ' + socket.id);
 
 	socket.on('mouse', function(coor){		
-		socket.broadcast.emit('mouse', coor)
+		socket.broadcast.to('/pong').emit('mouse', coor)
 	});
 
 	socket.on('state', function(data){
@@ -35,44 +39,46 @@ function newConnection(socket){
 		}
 		
 		
-		io.sockets.emit('list', playersList)
+		nsp.emit('list', playersList)
 	})
 
 	socket.on('mousePos', function(data){
-		socket.broadcast.emit('mousePos', data);
+		socket.broadcast.to('/pong').emit('mousePos', data);
 	})
 
 	socket.on('ball', function(data){
-		socket.broadcast.emit('ball', data);
+		socket.broadcast.to('/pong').emit('ball', data);
 	})
 
 	socket.on('challenge', function(){
-		socket.emit('challenge');
+		nsp.emit('challenge');
 	})
 
 	socket.on('test', function(data){
-		io.sockets.emit('test', data);
+		nsp.emit('test', data);
 	})
 
 	socket.on('newplayer', () => {
-		io.sockets.emit('newplayer');
+		nsp.emit('newplayer');
 	})
 
 	socket.on('message', function(msg, name){
-		io.sockets.emit('message', msg, name);
+		nsp.emit('message', msg, name);
 	})
 
 	socket.on('score', (side) => {
-		io.sockets.emit('score', side);
+		nsp.emit('score', side);
 	})
 
 	socket.on('reset', () => {
-		io.sockets.emit('reset');
+		nsp.emit('reset');
 	})
+
+	socket.on('disconnect', disconnect);
 }
 
 function disconnect(){
-	console.log(disconnect);
+	console.log('disconnect');
 }
 
 
