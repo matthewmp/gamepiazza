@@ -3,6 +3,7 @@ import './pong.css'
 import * as actions from '../actions';
 import {connect} from 'react-redux';
 import CanvasMsg from './canvasMsg';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 import MessageBoard from './messageBoard';
 
@@ -11,6 +12,7 @@ const io = require('socket.io-client');
 export class Pong extends React.Component{
 	constructor(props){
 		super(props);
+		
 		this.state = {
 			name: this.props.state.name,
 			inplay: false,
@@ -18,7 +20,8 @@ export class Pong extends React.Component{
 			msg: '',
 			showMsg: false,
 			right_Score: 0,
-			left_Score: 0			
+			left_Score: 0,
+			id: ''		
 		}		
 		this.setInPlay	= this.setInPlay.bind(this);
 		this.setPlayer = this.setPlayer.bind(this);		
@@ -26,6 +29,24 @@ export class Pong extends React.Component{
 		this.rightScore = this.rightScore.bind(this);
 		this.leftScore = this.leftScore.bind(this);
 		this.resetScore = this.resetScore.bind(this);
+		this.setSocketId = this.setSocketId.bind(this);
+		this.back = this.back.bind(this);
+	}
+
+	back(){
+		this.props.history.push('/game-gallery');
+	}
+
+	setUserState(user){
+		this.setState({
+			name: user.name
+		})
+	}
+
+	setSocketId(id){
+		this.setState({
+			id
+		})
 	}
 
 	setInPlay(){
@@ -89,14 +110,61 @@ export class Pong extends React.Component{
 		})
 	}
 
-	
-
 	componentDidMount(){
-	let socket = io.connect('http://localhost:3000');	
+	if(localStorage.user_info && !this.props.state.name){
+		console.log(this.props.state.name)
+			console.log('NO NAME');
+			console.log(JSON.parse(localStorage.user_info));
+			this.setUserState(JSON.parse(localStorage.user_info));
+			console.log(this.state)
+			console.log(JSON.parse(localStorage.user_info))
+	}
+	this.props.dispatch(actions.login(JSON.parse(localStorage.user_info)));
+
+	let timeOut;  // for timeout values
+	let timeOutArr = []; // hold all timeout values
+	let that = this;
+	
+	let socket = io.connect('/pong');
+	window.history.pushState({page: 1}, "title 1", "");
+	window.onpopstate = function(event) {  			
+		socket.emit('leaving');
+		//that.back();
+		window.location.replace('game-gallery');
+	};	
+
+	//Grab socket.io session ID
+	const setId = () =>{
+		if(!this.state.showMsg){
+			this.setMsg('Connecting to Game...');
+			this.setShowMsg();
+		} else {
+			console.warn('Connecting to Game...')
+		}
+
+		if(!this.state.id){
+			try{
+				if(socket.io.engine.id){
+					this.setSocketId(`/pong#${socket.io.engine.id}`);
+				}
+			}
+			catch(err){
+				console.warn('Socket ID not set.  Will try again in 2 seconds');
+			}
+		setTimeout(setId, 2000);
+		}
+			
+	    else {
+		  announceState(this.state);
+		  this.setShowMsg();
+		}
+	}
+
+	setId();
 
 	// Pong Game Code
 	let int;	// setInterval Variable for animation.
-	let frames = 60;  // To set frame rate of animation	
+	let frames = 30;  // To set frame rate of animation	
 
 	let canvas = document.getElementById('canvas');
 	let ctx = canvas.getContext('2d');
@@ -107,7 +175,7 @@ export class Pong extends React.Component{
 
 	let vsComp = false;		// Toggle if user needs to play against computer
 	let ballC = {}; 	// Ball coordinates to send over network
-	let that = this;
+	
 	// Create Ball
 	let ball = {
 		x: canvas.width / 2,
@@ -160,23 +228,16 @@ export class Pong extends React.Component{
 			ballC.x = this.x;
 			ballC.y = this.y;
 			socket.emit('ball', ballC);
-			console.log('EMITTING BALL');
-			console.log(this.xs, this.ys)
 		},
 		draw: function(){
 			ctx.fillStyle = this.c;
 			ctx.beginPath();
 			ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, true);
 			ctx.fill();	
-			console.log('DRAWING BALL')
 		},
 		reset: function(){
 			this.x = canvas.width / 2;
 			this.y = canvas.height / 2;
-			
-				console.log('BALL RESETING TO CENTER');	
-			
-			
 		}
 	}
 
@@ -264,9 +325,8 @@ export class Pong extends React.Component{
 
 	// Set Initial Ball Speed
 	function beginBall(){
-		console.log("BALL BEGIN!!!");
-		ball.xs = -5;
-		ball.ys = 4;
+		ball.xs = -10;
+		ball.ys = 6;
 	}	
 
 	// Stop Game Animation
@@ -277,7 +337,6 @@ export class Pong extends React.Component{
 	// Reset Game & Scores
 	
 	function resetBall(){
-		console.log('RESETING BALL!!!')
 		ball.xs = 0;
 		ball.ys = 0;
 		ball.reset();
@@ -365,7 +424,6 @@ const findLoser = () => {
 	
 	// Receiv PlayersList from Server
 	socket.on('list', (list) => {	
-		console.log('List Received');
 		that.stopInplay()
 		vsComp = false;
 		resetBall();
@@ -377,31 +435,22 @@ const findLoser = () => {
 		// Append Players List on Clients
 		list.forEach(function(val, ind){
 			let p = document.createElement('p');
-			p.innerHTML  = val;
+			p.innerHTML  = val.name;
 			playerList.appendChild(p)
 		});
-		console.log(playerList.innerHTML);
+	
 		// Set First 2 Players in List as Opponents
-		if(this.state.inplay === false && playerList.querySelectorAll('p')[0].innerHTML === this.state.name){			
-			// console.log('player1')
-			console.log('Choosing Player Side 0');
+		if(this.state.inplay === false && playerList.querySelectorAll('p')[0].innerHTML === this.state.name){						
 			choosePlayerSide(0);					
 		}
-		else if(this.state.inplay === false && playerList.querySelectorAll('p')[1].innerHTML === this.state.name){
-			// console.log('player2')
-			console.log('Choosing Player Side 1');			
+		else if(this.state.inplay === false && playerList.querySelectorAll('p')[1].innerHTML === this.state.name){			
 			choosePlayerSide(1);						
 		}	
 
 		if(document.getElementsByClassName('player-list')[0].children.length === 1 && this.state.inplay){
-				timeMsg('Playing Computer in 3 Seconds', 5000, ['begin']);
+				timeMsg('Playing Computer in 5 Seconds', 5000, ['begin']);
 				vsComp = true;
-		} 
-		// else {
-		// 	console.log('Emitting New Player');
-			
-		// }
-						
+		} 		
 })
 
 	function getLeftMouse(e){
@@ -419,8 +468,7 @@ const findLoser = () => {
 	//  Assign Right / Left Paddle to players and track mouse movements
 	const choosePlayerSide = (player) =>{
 
-	 	if(player === 0){	 		
-	 		console.log('choosing player 0')
+	 	if(player === 0){	 			 	
 	 		this.setPlayer(0);
 	 		// Reset Event Listeners
 	 		canvas.removeEventListener('mousemove', getLeftMouse);
@@ -431,7 +479,6 @@ const findLoser = () => {
 			this.setInPlay();
 	  	}
 	  	else if(player === 1){
-	  		console.log('choosing player 1')
 	 		this.setPlayer(1);
 
 	 		canvas.removeEventListener('mousemove', getLeftMouse);
@@ -442,7 +489,6 @@ const findLoser = () => {
 			 		
 	 		this.setInPlay();
 	 		socket.emit('newplayer');
-
 		}		
 	}
 
@@ -451,14 +497,13 @@ const findLoser = () => {
 	const timeMsg = (msg, mili, funcs)=>{
 			this.setMsg(msg);
 			this.setShowMsg();			
-			setTimeout(function(){
+			timeOutArr.push(setTimeout(function(){
 				this.setShowMsg();				
 				if(funcs){
 					funcs.forEach(function(val){
 						switch(val){
 							case 'begin':
 							
-							console.log("BEGIN BALL LINE 443");
 							beginBall();
 							break;
 
@@ -480,7 +525,7 @@ const findLoser = () => {
 						}
 					})
 				}
-			}.bind(this), mili)
+			}.bind(this), mili));
 	}
 
 
@@ -499,21 +544,15 @@ const findLoser = () => {
 		ball.y = data.y;
 	})
 
-	socket.on('test', (data)=>{
-		console.log('SOCKET TEST DATA: ', data)
-		//timeMsg(data.msg, data.mili, data.func)		
-		
-	})
-
 	socket.on('newplayer', () => {		
-		console.log('Inside New Player EL')
-		//vsComp = false;
 		initializeGame();
-		//console.log(JSON.stringify(that.state, null, 4))
+		timeOutArr.forEach(function(val){
+			clearTimeout(val);			
+		})
+		if(that.state.showMsg){
+			that.setShowMsg();
+		}
 		timeMsg('NEW PLAYER!!!', 2000, ['begin']);
-		console.log('HERES THE STATE');
-		console.log(JSON.stringify(that.state, null, 4))
-		console.log(vsComp);//l
 	})
 
 	socket.on('message', (msg, name) => {	
@@ -538,10 +577,6 @@ const findLoser = () => {
 	socket.on('reset', () => {
 		resetGame();
 	})
-
-	announceState(this.state);	// Declare Component State to Server and que player list
-	this.socket = socket;
-
 
 	postMessage = () => {			
 		let msg = document.getElementById('message-inp').value;						

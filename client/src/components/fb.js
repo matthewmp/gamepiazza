@@ -11,11 +11,9 @@ export class Login extends React.Component{
   } 
 
   responseFacebook (response) {
-    console.log(response);
-    
-     this.props.dispatch(actions.login(response));
-     // Send to Game-Gallery
-    
+    localStorage.setItem('user_info', JSON.stringify(response));
+    console.log(localStorage);
+    this.props.dispatch(actions.login(response));
   }
  
   render () {

@@ -15,7 +15,8 @@ export const gameReducer = (state=initialState, action) => {
 			id: action.id,
 			email: action.email,
 			name: action.name
-		});		
+		});	
+		console.log('REDUCER STATE: ', state)	;
 	}
 		
 	else {
