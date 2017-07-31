@@ -124,6 +124,7 @@ export class Pong extends React.Component{
 	let timeOut;  // for timeout values
 	let timeOutArr = []; // hold all timeout values
 	let that = this;
+	let acts = actions;
 	
 	let socket = io.connect('/pong');
 	window.history.pushState({page: 1}, "title 1", "");
@@ -342,11 +343,13 @@ export class Pong extends React.Component{
 		ball.reset();
 	}
 	
-	function resetGame(){		
+	function resetGame(){
+		let obj = saveScore();	
+		that.props.dispatch(actions.saveScore(obj));	
 		resetBall()		
 		that.setInPlay();
-		var score = (that.state.player) ? that.state.right_Score : that.state.left_Score;		
-		//saveScore(score);		
+		
+		let score = that.state.player ? that.state.right_Score : that.state.left_Score;		
 		
 		let playerList = document.getElementsByClassName('player-list')[0];
 		let leftPlayer = playerList.children[0].innerHTML;
@@ -356,21 +359,22 @@ export class Pong extends React.Component{
 			var rightPlayer = 'Computer';
 		}
 		vsComp = false;
-		timeMsg(`FINAL SCORE: ${leftPlayer}: ${that.state.left_Score}, ${rightPlayer}: ${that.state.right_Score}`, 5000, ['findLoser']);		
-		
+		timeMsg(`Final SCORE: ${leftPlayer}: ${that.state.left_Score}, ${rightPlayer}: ${that.state.right_Score}`, 5000, ['findLoser']);		
+		that.resetScore();	
 		
 		
 		
 	}
 
 	// Reset Game
-	const resetVsComp = () => {		
+	const resetVsComp = () => {	
+		let obj = saveScore();	
+		that.props.dispatch(actions.saveScore(obj));	
 		resetBall();				
 		that.setInPlay();
-		var score = (that.state.player) ? that.state.right_Score : that.state.left_Score;		
-		//saveScore(score);
 		
-
+		console.warn(that.state.left_Score);
+		
 		let playerList = document.getElementsByClassName('player-list')[0];
 		let leftPlayer = playerList.children[0].innerHTML;
 		if(playerList.children[1]){
@@ -398,12 +402,26 @@ const findLoser = () => {
 	function checkWin(){		
 		if(that.state.right_Score >= WIN_SCORE || that.state.left_Score >= WIN_SCORE){			
 			if(vsComp){
-				resetVsComp();
+				resetVsComp();				
 			}
 			else {
 				socket.emit('reset');// resetGame();
 			}
 		}
+	}
+
+	function saveScore(){
+
+		let score = (that.state.player) ? that.state.right_Score : that.state.left_Score;
+		
+		let local = JSON.parse(localStorage.user_info);
+		let obj = {
+			email: local.email,
+			name: local.name,
+			game: 'Pong',
+			score: score
+		}
+		return obj;
 	}
 
 	// Game AI			
@@ -495,6 +513,9 @@ const findLoser = () => {
 
 //  Set & Show Messages On All Players Screens
 	const timeMsg = (msg, mili, funcs)=>{
+			if(that.state.showMsg){
+						that.setShowMsg();
+			}
 			this.setMsg(msg);
 			this.setShowMsg();			
 			timeOutArr.push(setTimeout(function(){
