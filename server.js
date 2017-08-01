@@ -5,8 +5,8 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const {PORT, DATABASE_URL} = require('./config');
 const socket = require('socket.io');
-const scoreRouter = require('./scoreRouter');
-const validateRouter = require('./validateRouter');
+const scoreRouter = require('./routes/scoreRouter');
+const validateRouter = require('./routes/validateRouter');
 
 
 const app = express();
@@ -150,6 +150,20 @@ function runServer(databaseUrl=DATABASE_URL, port=PORT) {
   });
 }
 
+function closeServer() {
+  return mongoose.disconnect().then(() => {
+     return new Promise((resolve, reject) => {
+       console.log('Closing server');
+       server.close(err => {
+           if (err) {
+               return reject(err);
+           }
+           resolve();
+       });
+     });
+  });
+}
+
 
 if (require.main === module) {
   runServer().catch(err => console.error(err));
@@ -157,7 +171,7 @@ if (require.main === module) {
 
 
 
-
+module.exports = {runServer, closeServer, app};
 
 
 

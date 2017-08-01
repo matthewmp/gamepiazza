@@ -31,7 +31,8 @@
     "install": "^0.10.1",
     "npm": "^5.3.0",
     "react-dom": "^15.6.1",
-    "react-test-renderer": "^15.6.1"
+    "react-test-renderer": "^15.6.1",
+    "watchman": "^0.1.8"
   },
   "proxy": "http://localhost:3001/",
   "config": {

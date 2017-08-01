@@ -7,7 +7,7 @@ const usersSchema = mongoose.Schema({
 		name: String,
 		stats: [{
 			game: String,
-			date: {type: Date, default: Date.now},
+			date: String,
 			score: {type: Number, default: 0}
 		}]
 	

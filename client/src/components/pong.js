@@ -345,8 +345,10 @@ export class Pong extends React.Component{
 	
 	function resetGame(){
 		let obj = saveScore();	
-		that.props.dispatch(actions.saveScore(obj));	
-		resetBall()		
+		that.props.dispatch(actions.saveScore(obj));
+		that.props.dispatch(actions.saveToScoreBoard(obj));
+		console.log(that.props)
+		resetBall();
 		that.setInPlay();
 		
 		let score = that.state.player ? that.state.right_Score : that.state.left_Score;		
@@ -372,9 +374,6 @@ export class Pong extends React.Component{
 		that.props.dispatch(actions.saveScore(obj));	
 		resetBall();				
 		that.setInPlay();
-		
-		console.warn(that.state.left_Score);
-		
 		let playerList = document.getElementsByClassName('player-list')[0];
 		let leftPlayer = playerList.children[0].innerHTML;
 		if(playerList.children[1]){
@@ -418,7 +417,7 @@ const findLoser = () => {
 		let obj = {
 			email: local.email,
 			name: local.name,
-			game: 'Pong',
+			game: 'pong',
 			score: score
 		}
 		return obj;
