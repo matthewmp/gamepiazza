@@ -14,7 +14,7 @@ export const login = (user_info) => ({
 
 
 export const saveScore = score_info => dispatch => {	
-alert('savescore')
+console.log('INSIDE saveScore')
 	const url = '/score';
 	fetch(url, {
 		method: 'POST',
@@ -30,7 +30,6 @@ alert('savescore')
 }
 
 export const saveToScoreBoard = score_info => dispatch => {	
-
 	const url = '/score/pong';
 	console.warn(url);
 	fetch(url, {

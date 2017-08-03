@@ -14,7 +14,7 @@ router.get('/:email', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-	let info = req.body;
+	let info = req.body.score_info;
 	let statDetails = {
 		email: info.email,
 		name: info.name,
@@ -23,7 +23,10 @@ router.post('/', (req, res) => {
 			date: new Date().toDateString(),
 			score: info.score
 		}]
+		
+		
 	}
+	console.log(statDetails)
 
 	Users.findOneAndUpdate(
 		{email: statDetails.email},

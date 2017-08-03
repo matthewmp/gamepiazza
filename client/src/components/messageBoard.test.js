@@ -1,10 +1,10 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
-import App from './App';
+import MessageBoard from './CanvasMsg';
 
-describe('<App />', () => {
+describe('<MessageBoard />', () => {
 	it('Renders without crashing', () => {
-		shallow(<App />);
+		shallow(<MessageBoard />);
 	});
 });

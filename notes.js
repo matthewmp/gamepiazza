@@ -5,8 +5,6 @@
 3. Event listeners on browser navigation.
 
 
-graciewilfa@yahoo.com
-Kwatros
 
 
 

@@ -2,7 +2,7 @@ import * as actions from '../actions';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 
-const initialState = {
+export const initialState = {
 	id: '',
 	email: '',
 	name: '',

@@ -46,7 +46,7 @@ function startSocketIO(){
 			
 			playersList.forEach(function(elem, ind){
 				if(elem.name === data.name){
-					playersList.splice(ind, 1);
+					playersList.splice(playersList[ind], 1);
 					console.log('Splicing: ', playersList[ind]);
 				}
 			})

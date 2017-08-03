@@ -392,7 +392,7 @@ export class Pong extends React.Component{
 	}
 
 const findLoser = () => {
-	let loser = (that.state.right_Score > that.state.left_Score) ? 0 : 1;
+	let loser = (that.state.right_Score > that.state.left_Score) ? 1 : 0;
 	return loser;
 }
 
@@ -460,9 +460,9 @@ const findLoser = () => {
 		if(this.state.inplay === false && playerList.querySelectorAll('p')[0].innerHTML === this.state.name){						
 			choosePlayerSide(0);					
 		}
-		else if(this.state.inplay === false && playerList.querySelectorAll('p')[1].innerHTML === this.state.name){			
+		if(this.state.inplay === false && playerList.querySelectorAll('p')[1].innerHTML === this.state.name){			
 			choosePlayerSide(1);						
-		}	
+		} 	
 
 		if(document.getElementsByClassName('player-list')[0].children.length === 1 && this.state.inplay){
 				timeMsg('Playing Computer in 5 Seconds', 5000, ['begin']);

@@ -20,7 +20,7 @@ export class gameGallery extends React.Component{
 	}
 
 	render(){
-		console.log('Game Galler State: ', this.props.state)
+		console.log('Game Gallery State: ', this.props.state)
 		return(
 			<section className="game-gallery">
 				<Link to="pong">PONG</Link>
