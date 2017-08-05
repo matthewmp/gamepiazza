@@ -1,28 +1,16 @@
 'use strict';
 
-var _actions = require('../client/src/actions');
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const mongoose = require('mongoose');
+const faker = require('faker');
+import * as actions from '../client/src/actions';
 
-var actions = _interopRequireWildcard(_actions);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-var chai = require('chai');
-var chaiHttp = require('chai-http');
-var mongoose = require('mongoose');
-var faker = require('faker');
-
-
-var should = chai.should();
+const should = chai.should();
 chai.use(chaiHttp);
 
-var _require = require('../server'),
-    app = _require.app,
-    runServer = _require.runServer,
-    closeServer = _require.closeServer; // put close server in server.js
-
-
-var _require2 = require('../config'),
-    TEST_DATABASE_URL = _require2.TEST_DATABASE_URL;
+const { app, runServer, closeServer } = require('../server'); // put close server in server.js
+const { TEST_DATABASE_URL } = require('../config');
 
 function statDetails() {
 	return {
@@ -40,8 +28,8 @@ function makeUser() {
 	};
 }
 
-var user = makeUser();
-var userGame = void 0; // will hold stats after written to DB.
+let user = makeUser();
+let userGame; // will hold stats after written to DB.
 
 
 function tearDown() {
@@ -82,8 +70,8 @@ describe('Forum API Resource', function () {
 
 	describe('/score', function () {
 		it('Sets new score & game info', function () {
-			var info = statDetails();
-			var obj = {};
+			let info = statDetails();
+			let obj = {};
 			obj.score_info = {
 				name: user.name,
 				email: user.email,
@@ -120,4 +108,5 @@ describe('Forum API Resource', function () {
 	// 		});
 	// 	});
 	// });
+
 });

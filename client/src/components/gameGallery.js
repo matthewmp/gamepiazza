@@ -24,6 +24,7 @@ export class gameGallery extends React.Component{
 		return(
 			<section className="game-gallery">
 				<Link to="pong">PONG</Link>
+				<Link to="pong-single-player">PONG 1</Link>
 			</section>
 		)
 	}
