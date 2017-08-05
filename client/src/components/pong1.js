@@ -1,14 +1,12 @@
 import React from 'react';
-import './pong.css'
+import './pong.css';
 import * as actions from '../actions';
 import {connect} from 'react-redux';
 import CanvasMsg from './canvasMsg';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
-
 import MessageBoard from './messageBoard';
 
-
-export class PongSinglePlayer extends React.Component{
+export class Pong1 extends React.Component{
 	constructor(props){
 		super(props);
 		
@@ -40,8 +38,6 @@ export class PongSinglePlayer extends React.Component{
 			name: user.name
 		})
 	}
-
-	
 
 	setInPlay(){
 		this.setState({
@@ -105,29 +101,30 @@ export class PongSinglePlayer extends React.Component{
 	}
 
 	componentDidMount(){
+
 	if(localStorage.user_info && !this.props.state.name){
 		console.log(this.props.state.name)
 			console.log('NO NAME');
+			console.log(JSON.parse(localStorage.user_info));
 			this.setUserState(JSON.parse(localStorage.user_info));
+			console.log(this.state)
+			console.log(JSON.parse(localStorage.user_info))
 	}
 	this.props.dispatch(actions.login(JSON.parse(localStorage.user_info)));
 
 	let timeOut;  // for timeout values
 	let timeOutArr = []; // hold all timeout values
-	let that = this;  // Access 'this' within function
-	
-	
+	let that = this;
+
 	window.history.pushState({page: 1}, "title 1", "");
 	window.onpopstate = function(event) {  			
-		
-		//that.back();
 		window.location.replace('game-gallery');
 	};	
 
-	// Begin Animation
-	start();
-	beginSinglePlayer();
-	console.log('BEGIN')
+
+
+
+
 
 	// Pong Game Code
 	let int;	// setInterval Variable for animation.
@@ -167,9 +164,8 @@ export class PongSinglePlayer extends React.Component{
                     this.ys = deltaY * 0.025;                                        
 				}
 				else {
-					//rpaddle.score++;
-					//that.rightScore(rpaddle.score);
-									
+					
+					that.rightScore(rpaddle.score);
 					this.reset();                 
 					setTimeout(checkWin, 500)         
 				}
@@ -184,9 +180,7 @@ export class PongSinglePlayer extends React.Component{
                     this.ys = deltaY * 0.025;                    
 				}
 				else {
-					//lpaddle.score++;					
-					//that.leftScore(lpaddle.score);
-													
+					that.leftScore(lpaddle.score);
                     this.reset();                
                     setTimeout(checkWin, 500)                       
 				}
@@ -286,7 +280,6 @@ export class PongSinglePlayer extends React.Component{
 			int = setInterval(function(){			
 			update();			
 			draw();
-			console.log('Running')
 			}, 1000/frames);
 	}
 
@@ -302,20 +295,17 @@ export class PongSinglePlayer extends React.Component{
 	}
 
 	// Reset Game & Scores
-	
 	function resetBall(){
 		ball.xs = 0;
 		ball.ys = 0;
 		ball.reset();
 	}
-	
 
 	// Reset Game
 	const resetVsComp = () => {	
 		let obj = saveScore();	
 		that.props.dispatch(actions.saveScore(obj));	
 		resetBall();				
-		that.setInPlay();
 		let playerList = document.getElementsByClassName('player-list')[0];
 		let leftPlayer = playerList.children[0].innerHTML;
 		if(playerList.children[1]){
@@ -323,8 +313,10 @@ export class PongSinglePlayer extends React.Component{
 		} else {
 			var rightPlayer = 'Computer';
 		}
-		timeMsg(`FINAL SCORE: ${leftPlayer}: ${that.state.left_Score}, ${rightPlayer}: ${that.state.right_Score}`, 5000, ['announce']);
-		that.resetScore();				
+		
+		timeMsg(`FINAL SCORE: ${leftPlayer}: ${that.state.left_Score}, ${rightPlayer}: ${that.state.right_Score}`, 5000, ['begin']);
+		that.resetScore();	
+		initializeGame();			
 	}
 
 	const initializeGame = () => {		
@@ -332,22 +324,27 @@ export class PongSinglePlayer extends React.Component{
 		that.resetScore();		
 	}
 
-	const findLoser = () => {
-		let loser = (that.state.right_Score > that.state.left_Score) ? 1 : 0;
-		return loser;
-	}
+const findLoser = () => {
+	let loser = (that.state.right_Score > that.state.left_Score) ? 1 : 0;
+	return loser;
+}
 
 
 	// Check for win
 	function checkWin(){		
 		if(that.state.right_Score >= WIN_SCORE || that.state.left_Score >= WIN_SCORE){			
-				resetVsComp();					
+			if(vsComp){
+				resetVsComp();				
+			}
+			else {
+				//
+			}
 		}
 	}
 
 	function saveScore(){
 
-		let score = that.state.left_Score;
+		let score = (that.state.player) ? that.state.right_Score : that.state.left_Score;
 		
 		let local = JSON.parse(localStorage.user_info);
 		let obj = {
@@ -366,53 +363,9 @@ export class PongSinglePlayer extends React.Component{
 	    } else if(rpaddle.y + PADDLE_HEIGHT / 2 > ball.y + 35){
 	        rpaddle.y += -1;
 	    }	    
-	}	
-
-	
-
-
-	function beginSinglePlayer(){
-		let playerList = document.getElementsByClassName('player-list')[0];
-		playerList.innerHTML = '';
-
-		// Append Players List on Clients
-		//list.forEach(function(val, ind){
-
-		let p = document.createElement('p');
-		p.innerHTML  = that.state.name;
-		playerList.appendChild(p)   
-		choosePlayerSide(0);
-		timeMsg('Playing Computer in 5 Seconds', 5000, ['begin']);
-		vsComp = true;
 	}
 
-	function getLeftMouse(e){
-				let mousePos = calcMousePos(e);			
-				lpaddle.y = mousePos.y - PADDLE_HEIGHT / 2;			
-		}
-
-	function getRightMouse(e){
-			let mousePos = calcMousePos(e);			
-			rpaddle.y = mousePos.y - PADDLE_HEIGHT / 2;			
-	}
-	
-	//  Assign Right / Left Paddle to players and track mouse movements
-	const choosePlayerSide = (player) =>{
-
-	 	if(player === 0){	 			 	
-	 		this.setPlayer(0);
-	 		// Reset Event Listeners
-	 		canvas.removeEventListener('mousemove', getLeftMouse);
-	 		canvas.removeEventListener('mousemove', getRightMouse);
-
-			canvas.addEventListener('mousemove', getLeftMouse);
-			
-			this.setInPlay();
-	  	}
-	}
-
-
-//  Set & Show Messages On All Players Screens
+	//  Set & Show Messages On All Players Screens
 	const timeMsg = (msg, mili, funcs)=>{
 			if(that.state.showMsg){
 						that.setShowMsg();
@@ -449,9 +402,46 @@ export class PongSinglePlayer extends React.Component{
 				}
 			}.bind(this), mili));
 	}
-}
+
+	function announceState(){
+		console.log(that.state);
+
+	}
+
+	function getLeftMouse(e){
+			let mousePos = calcMousePos(e);			
+			lpaddle.y = mousePos.y - PADDLE_HEIGHT / 2;
+	}
+
+	function initialize(){
+		let playerList = document.getElementsByClassName('player-list')[0];
+		let p = document.createElement('p');
+		p.innerHTML  = that.state.name;
+		playerList.appendChild(p)
+
+		canvas.removeEventListener('mousemove', getLeftMouse);
+		canvas.addEventListener('mousemove', getLeftMouse);
+		
+		that.setPlayer(0);
+		vsComp = true;
+		start();	
+		beginBall();
+	}
+
+	initialize();
 	
-	render(){
+
+}
+
+
+
+
+
+
+
+
+
+render(){
 
 		let playerScoreClass = (this.state.player) ? 'right-score' : 'left-score';
 		if(document.getElementsByClassName('player-list')[0]){
@@ -465,6 +455,7 @@ export class PongSinglePlayer extends React.Component{
 				var right_Player = list.children[1].innerHTML;
 			}			
 		}
+
 		
 		let msg = (this.state.showMsg) ? <CanvasMsg msg={this.state.msg}/> : undefined;		
 		return(	
@@ -489,9 +480,7 @@ export class PongSinglePlayer extends React.Component{
 				<div className="player-list"></div>
 				
 				<p id="score">{left_Player} {this.state.left_Score}  {right_Player} {this.state.right_Score}</p>
-				<input id='message-inp' />				
-				<button id="btn" onClick={postMessage}>BUtton</button>
-				<div id="msg"></div>
+				
 			</div>
 		)						
 	}
@@ -503,4 +492,4 @@ const mapToState = (state, props) => ({
 	state: state
 })
 
-export default connect(mapToState)(PongSinglePlayer);
+export default connect(mapToState)(Pong1);

@@ -8,7 +8,7 @@ router.get('/:email', (req, res) => {
 	let email = req.params.email;
 	Users.find({"email": email})
 	.then(resp => {
-		res.json({users_stats: resp})
+		res.status(200).json({users_stats: resp})
 	})
 	
 });
@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
 	)
 	.exec()
 	.then(resp => {
-		res.json({game: resp});
+		res.status(201).json({game: resp});
 	})
 	.catch(err => console.log(err));
 })
@@ -51,7 +51,7 @@ router.post('/pong', (req, res) => {
 	})
 	.then(response => {
 		console.log('Create Response: ', response);
-		res.json({result: response});
+		res.status(201).json({result: response});
 	})
 	.catch(err => console.log(err));
 })

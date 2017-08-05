@@ -15,7 +15,7 @@ router.put('/', (req, res) => {
 			})
 			.then(response => {
 				console.log('Create Response: ', response);
-				res.json({name: response.name, email: response.email});
+				res.status(201).json({name: response.name, email: response.email});
 			})
 		} else {
 			Users.find({email: email})

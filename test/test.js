@@ -102,6 +102,21 @@ describe('Forum API Resource', function () {
 		});
 	});
 
+	// describe('actions.saveScore()', () => {
+	// 	it('tests action fetch function for saving users score', () => {
+	// 		let obj = {
+	// 			name: user.name,
+	// 			email: user.email,
+	// 			game: 'pong',
+	// 			score: faker.random.number()
+	// 		}
+
+	// 		var test = actions.validateUser();
+	// 		var x = test(obj);
+	// 		console.log('TESTTTTTTT: ', x)
+	// 	})
+	// })
+
 	// describe('/:email', function(){
 	// 	it('returns all users games and stats', function(){
 	// 		return chai.request(app)
