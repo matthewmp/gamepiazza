@@ -1,5 +1,5 @@
 import React from 'react';
-import './pong.css'
+import '../css/pong.css'
 import * as actions from '../actions';
 import {connect} from 'react-redux';
 import CanvasMsg from './canvasMsg';
@@ -170,7 +170,7 @@ export class Pong extends React.Component{
 	let canvas = document.getElementById('canvas');
 	let ctx = canvas.getContext('2d');
 
-	const PADDLE_HEIGHT = 150;
+	let PADDLE_HEIGHT = 150;
 	const PADDLE_WIDTH = 25;
 	const WIN_SCORE = 3;
 
@@ -262,7 +262,7 @@ export class Pong extends React.Component{
 	let rpaddle = {		
 		x: canvas.width - PADDLE_WIDTH - 1,
 		y: canvas.height / 2 - PADDLE_HEIGHT / 2,
-		h: PADDLE_HEIGHT - 60,
+		h: PADDLE_HEIGHT,
 		w: PADDLE_WIDTH,
 		score: 0,
 		move: function(x, y){
@@ -582,7 +582,7 @@ const findLoser = () => {
 			messages[0].remove();
 		}	
 		// let name = this.state.name;			
-		document.getElementById('msg').innerHTML += `<p class="message">${name}: ${msg}</p>`;
+		document.getElementById('msg').innerHTML += `<p class="message"><span class="message-name">${name}:</span> ${msg}</p>`;
 	})
 
 	socket.on('score', (side) => {		
@@ -601,8 +601,11 @@ const findLoser = () => {
 	postMessage = () => {			
 		let msg = document.getElementById('message-inp').value;						
 		socket.emit('message', msg, this.state.name);	
-	}
+		// this.setMsg('asdf');
+		// this.setShowMsg();
+	}	
 }
+
 	
 	render(){
 
@@ -621,7 +624,7 @@ const findLoser = () => {
 		
 		let msg = (this.state.showMsg) ? <CanvasMsg msg={this.state.msg}/> : undefined;		
 		return(	
-
+			<div>
 			<div className="canvas-container">
 				{msg}
 
@@ -631,6 +634,7 @@ const findLoser = () => {
 					id="canvas"  
 					ref={(canvas) => { this.canvasRef = canvas; }}>
 				</canvas>
+			</div>
 				<div className="score-board">
 					<div className="left-score">
 						<p id="score">{left_Player} <span className="left num">{this.state.left_Score}</span></p>
@@ -647,11 +651,12 @@ const findLoser = () => {
 					<div className="message-wrapper">
 						<p>Message Board</p>
 						<input id='message-inp' />				
-						<button id="btn" onClick={postMessage}>BUtton</button>
+						<button id="message-btn" onClick={postMessage}>Submit</button>
 						<div id="msg"></div>
 					</div>
 				</div>	
-			</div>
+				</div>
+			
 		)						
 	}
 }

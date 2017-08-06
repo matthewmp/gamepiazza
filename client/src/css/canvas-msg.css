@@ -1,10 +1,13 @@
 .canvas-msg{
 	width: 400px;
-	height: 200px;
-	background: red;
-	position: absolute;
-	top: 100px;
-	left: 100px;
-	translateY: -50%;
-	translateX: -50%;
+    height: 200px;
+    background: #113340;
+    position: absolute;
+    top: 100px;
+    left: 20%;
+    color: #fff;
+    font-family: 'Poppins';
+    font-size: 1.3em;
+    border-radius: 3px;
+    line-height: 100px;
 }

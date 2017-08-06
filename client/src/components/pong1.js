@@ -1,5 +1,5 @@
 import React from 'react';
-import './pong.css';
+import '../css/pong.css';
 import * as actions from '../actions';
 import {connect} from 'react-redux';
 import CanvasMsg from './canvasMsg';

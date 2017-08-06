@@ -2,8 +2,8 @@
 	text-align: center;
 }
 
-canvas{
-
+.player-info-container{
+	text-align: center;
 }
 
 .player-list-wrapper, .message-wrapper{
@@ -58,5 +58,20 @@ canvas{
 
 #message-inp{
 	float: left;
+}
+
+#message-btn{
+	display: block;
+    border: none;
+    background: #37A4CC;
+    color: #fff;
+    width: 80px;
+    height: 30px;
+    font-family: 'Roboto';
+}
+
+.message-name{
+	font-family: 'Roboto';
+    color: #3EB8E5;
 }
 

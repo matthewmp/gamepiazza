@@ -1,8 +1,7 @@
 /*
 
-1. App loses state when navigating back or forward.
-2. Router setup in general.
-3. Event listeners on browser navigation.
+1. Align player list and messager
+2. Align game messages.
 
 
 
