@@ -184,7 +184,7 @@ export class Pong extends React.Component{
 		r: 10,	// Radius
 		xs: 0,	// X Speed
 		ys: 0,  // Y Speed
-		c: '#ff0000',
+		c: '#fff',
 		score: 0,		
 		move: function(){
 			this.x += this.xs;
@@ -302,7 +302,7 @@ export class Pong extends React.Component{
 	// Render Functions
 	function draw(){	
 		clr();		
-		ctx.fillStyle = '#000';
+		ctx.fillStyle = '#45CDFF';
 		ctx.fillRect(0, 0, canvas.width, canvas.height);		
 		ball.draw();
 		lpaddle.draw();
@@ -312,7 +312,7 @@ export class Pong extends React.Component{
 
 	// Clear Screen
 	function clr(){
-		ctx.fillStyle = '#000';
+		ctx.fillStyle = '#45CDFF';
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 	}
 
@@ -326,8 +326,8 @@ export class Pong extends React.Component{
 
 	// Set Initial Ball Speed
 	function beginBall(){
-		ball.xs = -10;
-		ball.ys = 6;
+		ball.xs = 0,//-10;
+		ball.ys = 0//6;
 	}	
 
 	// Stop Game Animation
@@ -633,18 +633,24 @@ const findLoser = () => {
 				</canvas>
 				<div className="score-board">
 					<div className="left-score">
-						{this.state.leftPlayer}
+						<p id="score">{left_Player} <span className="left num">{this.state.left_Score}</span></p>
 					</div>
 					<div className="right-score">
-						{this.state.rightPlayer}
+						<p id="score">{right_Player} <span className="right num">{this.state.right_Score}</span></p>
 					</div>
 				</div>	
-				<div className="player-list"></div>
-				
-				<p id="score">{left_Player} {this.state.left_Score}  {right_Player} {this.state.right_Score}</p>
-				<input id='message-inp' />				
-				<button id="btn" onClick={postMessage}>BUtton</button>
-				<div id="msg"></div>
+				<div className="player-info-container">
+					<div className="player-list-wrapper">
+						<p>Players in Room</p>
+						<div className="player-list"></div>
+					</div>
+					<div className="message-wrapper">
+						<p>Message Board</p>
+						<input id='message-inp' />				
+						<button id="btn" onClick={postMessage}>BUtton</button>
+						<div id="msg"></div>
+					</div>
+				</div>	
 			</div>
 		)						
 	}

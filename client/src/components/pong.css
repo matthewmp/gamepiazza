@@ -1,16 +1,62 @@
+.canvas-container{
+	text-align: center;
+}
+
 canvas{
-	background: #000;
+
+}
+
+.player-list-wrapper, .message-wrapper{
+	display: inline-block;
+	text-align: left;
+	width: 30%;
+	height: 50%;
+	vertical-align: top;
+	font-family: 'Roboto';
 }
 
 .score-board{
 	width: 500px;
 	height: 100px;
+	margin: auto;
+	font-family: 'Poppins';
+}
+
+.right-score, .left-score{
+	display: inline-block;
+}
+
+.right-score{
+	float: right;
 }
 
 .left-score{
 	float: left;
 }
 
-.right-score{
-	float: right;
+.num{
+	margin-top: 20px;
+	display: block;
+	width: 100px;
+	height: 80px;
+	line-height: 80px;
+	color: #fff;
+	font-family: 'Roboto';
+	font-size: 2em;
 }
+
+.left.num{
+	background: #45CDFF;
+}
+
+.right.num{
+	background: #91E2FF;
+}
+.score{
+	display: inline-block;
+}
+
+#message-inp{
+	float: left;
+}
+
