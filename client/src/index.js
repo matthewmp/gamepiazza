@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import {Provider} from 'react-redux';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 import store from './store';
-import App from './components/App';
+
 import Login from './components/login';
 import gameGallery from './components/gameGallery';
 import Pong from './components/pong';

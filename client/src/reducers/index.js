@@ -1,5 +1,5 @@
 import * as actions from '../actions';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+
 
 
 export const initialState = {
@@ -16,7 +16,6 @@ export const gameReducer = (state=initialState, action) => {
 			email: action.email,
 			name: action.name
 		});	
-		console.log('REDUCER STATE: ', state)	;
 	}
 		
 	else {

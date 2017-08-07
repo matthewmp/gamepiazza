@@ -1,45 +1,103 @@
 import React from 'react';
 import Fb from './fb';
-
-import mario from '../assets/mario.png'
-import pisa from '../assets/pisa.png'
-import Highscore from './highscore';
-import gameGallery from './gameGallery';
+import BottomBanner from './bottom-banner';
+import Header from './header';
+import Footer from './footer';
+import '../css/login.css';
 
 export default class Login extends React.Component{
-	constructor(props){
-		super(props);
-		this.test = this.test.bind(this);
-	}
 
-	test(){
-		console.log('test');
-		this.props.history.push('/game-gallery');
+	componentDidMount(){
+		let canvas = document.getElementById('canvas');
+		let ctx = canvas.getContext('2d');
+
+		function ballMaker(){
+		  return {
+		    x: Math.floor(Math.random(0) * canvas.width),
+		    y: Math.floor(Math.random(0) * canvas.height),
+		    r: 5,
+		    xSpeed: 3,
+		    ySpeed: 3,
+		    draw: function(){
+		      ctx.beginPath();
+		      ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
+		      ctx.fill();
+		    },
+		    update: function(){
+		      this.x += this.xSpeed;
+		      this.y += this.ySpeed;
+		      if(this.x >= canvas.width || this.x <= 0 || this.y >= canvas.height || this.y <= 0){
+		        this.xSpeed = -this.xSpeed + Math.floor(Math.random(2) * 5);
+		        this.ySpeed = -this.ySpeed + Math.floor(Math.random(2) * 5);
+		        if(this.xSpeed > 10 || this.ySpeed > 10){
+		          this.x = Math.floor(Math.random(0) * canvas.width);
+		          this.y = Math.floor(Math.random(0) * canvas.height);
+		          this.xSpeed = 5;
+		          this.ySpeed = 2;
+		        }
+		        //console.log(this.x, this.y)
+		      }
+		    }
+		  }
+		}
+
+		let ballArr = [];
+
+		for(let i = 0; i < 20; i++){
+		  let ball = ballMaker();
+		  ballArr.push(ball);
+		}
+
+
+
+
+		setInterval(function(){
+		  ctx.fillStyle = '#fff';
+		  ctx.fillRect(0, 0, canvas.width, canvas.height);
+		  ctx.fillStyle = '#5ED4FF';
+		  ballArr.forEach(function(val){
+		    val.update();
+		    val.draw();
+		  })
+		}, 30)
 	}
 	
 
 	render(){
 		return(
-			<section className="main-container">
-			  <div className="left-container">
-			    <div className="title game">Game</div>
-			    
-			      <img src={pisa} id="piazza" alt="pisa"/>
-			    
-			    
-			    <img src={mario} id="mario" alt="mario"/>
-			  
-			    
-			    
-			    
-			    <div className="login">
-			       <Fb />
-			       <div><button onClick={this.test}>Go TO Games</button></div>
-			    </div>
-			   
 
-			  </div>
-			  <Highscore />
+			<section>
+				<Header />
+				<section className="main-container">
+				  <div className="left-container">
+				    <div className="outer-console">
+				       <div className="outer-tv">
+				         <canvas id="canvas"></canvas>
+				      </div>
+				    </div>
+				    
+				  </div>
+				  
+				  
+				  <div className="right-container">
+				    <div className="slogan-wrapper">
+				        <p className="slogan-title">GAME PIAZZA</p>
+				        <p className="slogan">Simple</p>
+				        <p className="slogan">Retro</p>
+				        <p className="slogan">Gaming</p>
+				        <p className="description">
+				          Play single / multiplayer games.  Keep track of games played, scores, and stats.  Message other players while in multiplayer games.  Have fun!
+				        </p>
+				      
+				      <div className="button-wrapper">
+				        <Fb />
+				      </div>
+				    </div>
+				    
+				  </div>
+				</section>
+				<BottomBanner />	
+				<Footer />	 
 			</section>
 		)
 	}

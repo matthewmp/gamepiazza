@@ -3,9 +3,8 @@ import '../css/pong.css'
 import * as actions from '../actions';
 import {connect} from 'react-redux';
 import CanvasMsg from './canvasMsg';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
-
-import MessageBoard from './messageBoard';
+import Header from './header';
+import Footer from './footer';
 
 const io = require('socket.io-client');
 
@@ -121,10 +120,8 @@ export class Pong extends React.Component{
 	}
 	this.props.dispatch(actions.login(JSON.parse(localStorage.user_info)));
 
-	let timeOut;  // for timeout values
 	let timeOutArr = []; // hold all timeout values
 	let that = this;
-	let acts = actions;
 	
 	let socket = io.connect('/pong');
 	window.history.pushState({page: 1}, "title 1", "");
@@ -164,7 +161,6 @@ export class Pong extends React.Component{
 	setId();
 
 	// Pong Game Code
-	let int;	// setInterval Variable for animation.
 	let frames = 30;  // To set frame rate of animation	
 
 	let canvas = document.getElementById('canvas');
@@ -318,22 +314,17 @@ export class Pong extends React.Component{
 
 	// Start Game Animation
 	function start() {						
-			int = setInterval(function(){			
-			update();			
-			draw();
+			setInterval(function(){			
+				update();			
+				draw();
 			}, 1000/frames);
 	}
 
 	// Set Initial Ball Speed
 	function beginBall(){
-		ball.xs = 0,//-10;
-		ball.ys = 0//6;
+		ball.xs = -10;
+		ball.ys = 6;
 	}	
-
-	// Stop Game Animation
-	function stop(){		
-		clearInterval(int);
-	}
 
 	// Reset Game & Scores
 	
@@ -351,14 +342,14 @@ export class Pong extends React.Component{
 		resetBall();
 		that.setInPlay();
 		
-		let score = that.state.player ? that.state.right_Score : that.state.left_Score;		
+		//let score = that.state.player ? that.state.right_Score : that.state.left_Score;		
 		
 		let playerList = document.getElementsByClassName('player-list')[0];
 		let leftPlayer = playerList.children[0].innerHTML;
 		if(playerList.children[1]){
 			var rightPlayer = playerList.children[1].innerHTML;
 		} else {
-			var rightPlayer = 'Computer';
+			rightPlayer = 'Computer';
 		}
 		vsComp = false;
 		timeMsg(`Final SCORE: ${leftPlayer}: ${that.state.left_Score}, ${rightPlayer}: ${that.state.right_Score}`, 5000, ['findLoser']);		
@@ -379,7 +370,7 @@ export class Pong extends React.Component{
 		if(playerList.children[1]){
 			var rightPlayer = playerList.children[1].innerHTML;
 		} else {
-			var rightPlayer = 'Computer';
+			rightPlayer = 'Computer';
 		}
 		vsComp = false;
 		timeMsg(`FINAL SCORE: ${leftPlayer}: ${that.state.left_Score}, ${rightPlayer}: ${that.state.right_Score}`, 5000, ['announce']);
@@ -608,8 +599,6 @@ const findLoser = () => {
 
 	
 	render(){
-
-		let playerScoreClass = (this.state.player) ? 'right-score' : 'left-score';
 		if(document.getElementsByClassName('player-list')[0]){
 			let list = document.getElementsByClassName('player-list')[0];
 			if(list.children.length === 1){
@@ -617,44 +606,45 @@ const findLoser = () => {
 				var right_Player = 'Computer'
 			}
 			else if(list.children.length >= 2){
-				var left_Player = list.children[0].innerHTML;
-				var right_Player = list.children[1].innerHTML;
+				left_Player = list.children[0].innerHTML;
+				right_Player = list.children[1].innerHTML;
 			}			
 		}
 		
 		let msg = (this.state.showMsg) ? <CanvasMsg msg={this.state.msg}/> : undefined;		
 		return(	
 			<div>
-			<div className="canvas-container">
-				{msg}
+				<Header />
+				<div className="canvas-container">
+					{msg}
 
-				<canvas 
-					width="600" 
-					height="400" 
-					id="canvas"  
-					ref={(canvas) => { this.canvasRef = canvas; }}>
-				</canvas>
-			</div>
-				<div className="score-board">
-					<div className="left-score">
-						<p id="score">{left_Player} <span className="left num">{this.state.left_Score}</span></p>
-					</div>
-					<div className="right-score">
-						<p id="score">{right_Player} <span className="right num">{this.state.right_Score}</span></p>
-					</div>
-				</div>	
-				<div className="player-info-container">
-					<div className="player-list-wrapper">
-						<p>Players in Room</p>
-						<div className="player-list"></div>
-					</div>
-					<div className="message-wrapper">
-						<p>Message Board</p>
-						<input id='message-inp' />				
-						<button id="message-btn" onClick={postMessage}>Submit</button>
-						<div id="msg"></div>
-					</div>
-				</div>	
+					<canvas 
+						width="600" 
+						height="400" 
+						id="canvas"  
+						ref={(canvas) => { this.canvasRef = canvas; }}>
+					</canvas>
+				</div>
+					<div className="score-board">
+						<div className="left-score">
+							<p id="score">{left_Player} <span className="left num">{this.state.left_Score}</span></p>
+						</div>
+						<div className="right-score">
+							<p id="score">{right_Player} <span className="right num">{this.state.right_Score}</span></p>
+						</div>
+					</div>	
+					<div className="player-info-container">
+						<div className="player-list-wrapper">
+							<p>Players in Room</p>
+							<div className="player-list"></div>
+						</div>
+						<div className="message-wrapper">
+							<p>Message Board</p>
+							<input id='message-inp' />				
+							<button id="message-btn" onClick={postMessage}>Submit</button>
+							<div id="msg"></div>
+						</div>
+					</div>	
 				</div>
 			
 		)						

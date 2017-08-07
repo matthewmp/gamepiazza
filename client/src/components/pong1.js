@@ -3,8 +3,7 @@ import '../css/pong.css';
 import * as actions from '../actions';
 import {connect} from 'react-redux';
 import CanvasMsg from './canvasMsg';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
-import MessageBoard from './messageBoard';
+import '../css/pong.css';
 
 export class Pong1 extends React.Component{
 	constructor(props){
@@ -112,7 +111,6 @@ export class Pong1 extends React.Component{
 	}
 	this.props.dispatch(actions.login(JSON.parse(localStorage.user_info)));
 
-	let timeOut;  // for timeout values
 	let timeOutArr = []; // hold all timeout values
 	let that = this;
 
@@ -127,7 +125,6 @@ export class Pong1 extends React.Component{
 
 
 	// Pong Game Code
-	let int;	// setInterval Variable for animation.
 	let frames = 30;  // To set frame rate of animation	
 
 	let canvas = document.getElementById('canvas');
@@ -277,9 +274,9 @@ export class Pong1 extends React.Component{
 
 	// Start Game Animation
 	function start() {						
-			int = setInterval(function(){			
-			update();			
-			draw();
+			setInterval(function(){			
+				update();			
+				draw();
 			}, 1000/frames);
 	}
 
@@ -288,11 +285,6 @@ export class Pong1 extends React.Component{
 		ball.xs = -10;
 		ball.ys = 6;
 	}	
-
-	// Stop Game Animation
-	function stop(){		
-		clearInterval(int);
-	}
 
 	// Reset Game & Scores
 	function resetBall(){
@@ -311,7 +303,7 @@ export class Pong1 extends React.Component{
 		if(playerList.children[1]){
 			var rightPlayer = playerList.children[1].innerHTML;
 		} else {
-			var rightPlayer = 'Computer';
+			rightPlayer = 'Computer';
 		}
 		
 		timeMsg(`FINAL SCORE: ${leftPlayer}: ${that.state.left_Score}, ${rightPlayer}: ${that.state.right_Score}`, 5000, ['begin']);
@@ -443,7 +435,6 @@ const findLoser = () => {
 
 render(){
 
-		let playerScoreClass = (this.state.player) ? 'right-score' : 'left-score';
 		if(document.getElementsByClassName('player-list')[0]){
 			let list = document.getElementsByClassName('player-list')[0];
 			if(list.children.length === 1){
@@ -451,8 +442,8 @@ render(){
 				var right_Player = 'Computer'
 			}
 			else if(list.children.length >= 2){
-				var left_Player = list.children[0].innerHTML;
-				var right_Player = list.children[1].innerHTML;
+				left_Player = list.children[0].innerHTML;
+				right_Player = list.children[1].innerHTML;
 			}			
 		}
 

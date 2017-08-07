@@ -1,0 +1,25 @@
+.games-wrapper{
+	height: 70vh;
+	border: 1px solid #eee;
+	text-align: center;
+	width: 80%;
+	margin: auto;
+}
+
+.game{
+	border: 1px solid #ccc;
+	width: 30%;
+	height: 30%;
+	/*display: inline-block;*/
+	float: left;
+	margin: 25% 10px;
+	line-height: 200px;
+	font-family: 'Poppins';
+	background: #37A4CC;
+	color:#fff;
+}
+
+.game:hover{
+	background: #91E2FF;
+	cursor: pointer;
+}

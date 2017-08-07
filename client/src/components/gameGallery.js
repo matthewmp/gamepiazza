@@ -1,8 +1,11 @@
 import React from 'react';
 import '../css/game-gallery.css';
-import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as actions from '../actions';
+import Header from './header';
+import Footer from './footer';
+import BottomBanner from './bottom-banner';
+import {Games} from './games';
 
 export class gameGallery extends React.Component{
 	constructor(props){
@@ -22,9 +25,12 @@ export class gameGallery extends React.Component{
 	render(){
 		console.log('Game Gallery State: ', this.props.state)
 		return(
+
 			<section className="game-gallery">
-				<Link to="pong">PONG</Link>
-				<Link to="pong1">PONG 1</Link>
+				<Header />
+				<Games />
+				<BottomBanner />	
+				<Footer />
 			</section>
 		)
 	}
