@@ -37,60 +37,70 @@ export class Pong extends React.Component{
 	}
 
 	setUserState(user){
+		console.log('setUserState');
 		this.setState({
 			name: user.name
 		})
 	}
 
 	setSocketId(id){
+		console.log('setSocketId');
 		this.setState({
 			id
 		})
 	}
 
 	setInPlay(){
+		console.log('setInPlay');
 		this.setState({
 			inplay: !this.state.inplay
 		})		
 	}
 
 	stopInplay(){
+		console.log('stopInplay');
 		this.setState({
 			inplay: false
 		})
 	}
 
 	setPlayer(player){
+		console.log('setPlayer');
 		this.setState({
 			player
 		})
 	}
 
 	setLeftPlayer(player){
+		console.log('setLeftPlayer');
 		this.setState({
 			leftPlayer: player
 		})
 	}
 
 	setRightPlayer(player){
+		console.log('setRightPlayer');
 		this.setState({
 			rightPlayer: player
 		})
 	}
 
-	rightScore(){		
+	rightScore(){	
+	console.log('set rightScore');	
 		this.setState({
 			right_Score: this.state.right_Score + 1
 		})			
 	}
 
-	leftScore(){		
+	leftScore(){	
+	console.log('set leftScore');	
 		this.setState({
 			left_Score: this.state.left_Score + 1
 		})			
 	}
 
 	resetScore(){
+		console.log('resetScore');
 		this.setState({
 			left_Score: 0,
 			right_Score: 0
@@ -107,9 +117,32 @@ export class Pong extends React.Component{
 		this.setState({
 			showMsg: !this.state.showMsg
 		})
+
+
 	}
 
 	componentDidMount(){
+	var hist;
+    var histFlag;
+      
+    histFlag = false;
+    hist = setInterval(function(){
+    console.log('CHECKING URL');
+    if(window.location.href.indexOf('pong') >= 0){
+        histFlag = true;
+        console.log(`histFlag: ${histFlag}`);
+    }
+    else {
+      if(histFlag){
+        console.log("RUN CODE");
+        console.log(window.location.href)
+        window.location.replace(window.location.href);
+      }
+    }
+   }, 500)
+      
+
+
 	if(localStorage.user_info && !this.props.state.name){
 		console.log(this.props.state.name)
 			console.log('NO NAME');

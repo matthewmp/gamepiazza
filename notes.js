@@ -13,3 +13,20 @@
 
 
  */
+
+ // let histFlag = false;
+ // let hist = setInterval(function(){
+ // 	console.log('CHECKING URL');
+ // 	if(window.location.href.indexOf('pong') >= 0){
+ // 		histFlag = true;
+ // 		console.log(`histFlag: ${histFlag}`);
+ // 	}
+ // 	else {
+ // 		if(histFlag){
+ // 			console.log("RUN CODE");
+ // 			console.log(window.location.href)
+ // 			window.location.replace(window.location.href);
+ // 		}
+
+ // 	}
+ // }, 500)

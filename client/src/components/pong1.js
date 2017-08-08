@@ -103,6 +103,25 @@ export class Pong1 extends React.Component{
 
 	componentDidMount(){
 
+	var hist;
+    var histFlag;
+      
+    histFlag = false;
+    hist = setInterval(function(){
+    console.log('CHECKING URL');
+    if(window.location.href.indexOf('pong') >= 0){
+        histFlag = true;
+        console.log(`histFlag: ${histFlag}`);
+    }
+    else {
+      if(histFlag){
+        console.log("RUN CODE");
+        console.log(window.location.href)
+        window.location.replace(window.location.href);
+      }
+    }
+   }, 500)
+
 	if(localStorage.user_info && !this.props.state.name){
 		console.log(this.props.state.name)
 			console.log('NO NAME');
