@@ -44,3 +44,97 @@ li:hover{
     -webkit-filter: invert(1);
     filter: invert(1);
 }
+
+.mobile{
+  display: none;
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  right: 65px;
+  top: 15px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.line{
+  height: 2px;
+  width: 80%;
+  background: #fff;
+  margin: auto;
+  margin-top: 22%;
+}
+
+.mobile-menu{
+  height: 120px;
+  width: 250px;
+  position: absolute;
+  right: 80px;
+  background: #fff;
+  margin: 80px -80px;
+}
+
+.mobile-hidden{
+  display: none;
+}
+
+.burger-ul{
+
+  margin: -10px 20px;
+  text-align: center;
+}
+
+.burger-item{
+  color: #5ED4FF;
+  display: block;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+
+@media only screen and (max-width: 650px){
+  .mobile{
+    display: block;
+  }
+
+  .nav-menu{
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 450px){
+ /* .pisa{
+    display: none;
+  }*/
+
+  .title{
+    font-size: 1.5em;
+  }
+}
+
+@media only screen and (max-width: 390px){
+  .pisa{
+    display: none;
+  }
+
+  .title{
+    font-size: 120%;
+  }
+}
+
+@media only screen and (max-width: 320px){
+  .logo-wrapper{
+    display: none;
+  }
+  .mobile{
+    right: 40%;
+  }
+}
+
+
+
+
+
+
+
+
+

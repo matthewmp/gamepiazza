@@ -14,12 +14,20 @@ export class gameGallery extends React.Component{
 	}
 
 	componentDidMount(){
-		console.log('Cmp Did Mount');
+		if(!localStorage.user_info){
+			this.props.history.push('/');
+			alert('You Must Be Logged In To Use Site	')
+		}
+		
 		if(localStorage.user_info && !this.props.state.name){
 			console.log('NO NAME');
 			console.log(JSON.parse(localStorage.user_info));
 			this.props.dispatch(actions.login(JSON.parse(localStorage.user_info)));
 		}
+		
+		
+		
+		
 	}
 
 	render(){

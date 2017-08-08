@@ -29,37 +29,43 @@ export class Scoreboard extends React.Component{
 	}
 
 	componentDidMount(){
-	if(localStorage.user_info && !this.props.state.name){
-		console.log(this.props.state.name)
-			console.log('NO NAME');
-			
-			this.setUserState(JSON.parse(localStorage.user_info));
-			console.log('STATE: ', this.state)
-			//console.log(JSON.parse(localStorage.user_info))
-		}
-		this.props.dispatch(actions.login(JSON.parse(localStorage.user_info)))
-		let info = JSON.parse(localStorage.user_info)
-		console.log(info)
-		try{
-			let results = this.props.dispatch(actions.getScores(info.email));
-			let that = this;	
-			setTimeout(function(){
-				try{
-					console.log(that.props.state);
-					that.setResults(that.props.state.user_scores.resp[0].stats);
-
-				}
-				catch(err){
-					console.log(err);
-				}
+	if(!localStorage.user_info){
+			this.props.history.push('/');
+			alert('You Must Be Logged In To Use Site');
+	} else {
+		if(localStorage.user_info && !this.props.state.name){
+			console.log(this.props.state.name)
+				console.log('NO NAME');
 				
-			}, 2000)
-		}
-		catch(err){
-			console.log('There was an error.  Please re-login and try again');
-		}
-		
+				this.setUserState(JSON.parse(localStorage.user_info));
+				console.log('STATE: ', this.state)
+				//console.log(JSON.parse(localStorage.user_info))
+			}
+			this.props.dispatch(actions.login(JSON.parse(localStorage.user_info)))
+			
+			let info = JSON.parse(localStorage.user_info)
+			
+			try{
+				let results = this.props.dispatch(actions.getScores(info.email));
+				let that = this;	
+				setTimeout(function(){
+					try{
+						console.log(that.props.state);
+						that.setResults(that.props.state.user_scores.resp[0].stats);
 
+					}
+					catch(err){
+						console.log(err);
+					}
+					
+				}, 2000)
+			}
+			catch(err){
+				console.log('There was an error.  Please re-login and try again');
+			}
+			
+
+		}
 	}
 
 	
