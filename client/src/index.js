@@ -10,6 +10,8 @@ import Login from './components/login';
 import gameGallery from './components/gameGallery';
 import Pong from './components/pong';
 import Pong1 from './components/pong1';
+import Scoreboard from './components/scoreboard';
+
 store.subscribe(() => {
 	const state = store.getState();
 	console.log('Store_State: ',  state);
@@ -23,6 +25,7 @@ ReactDOM.render(
 		      <Route exact path = '/game-gallery' component={gameGallery} />
 		      <Route exact path = '/pong' component={Pong} />
 		      <Route exact path = '/pong1' component={Pong1} />
+		      <Route exact path = '/scoreboard' component={Scoreboard} />
 		    </div>  
 
 	</Router>

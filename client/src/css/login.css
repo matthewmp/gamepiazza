@@ -1,32 +1,18 @@
 .main-container{
   height: 70vh;
   width: 85vw;
-/*   border: 3px solid red; */
   text-align: center;
-/*   clear: both; */
   margin: auto;
 }
 
 .left-container, .right-container{
   display: inline-block;
-/*   border: 1px solid black; */
+
   height: 70%;
   min-width: 30vw;
   width: 40vw;
   vertical-align: top;
   margin: 10vh 0 0 0;
-}
-
-.left-container{
-/*   float: left; */
-/*     margin-left: 4%; */
-/*   border: 1px solid limegreen; */
-}
-
-.right-container{
-/*   margin-right: 4%;
-  float: right; */
-/*   border: 1px solid red; */
 }
 
 .slogan-wrapper{
@@ -63,12 +49,10 @@
   font-size: 1em;
   line-height: 1.2em;
   color: #555;
-/*   border: 1px solid black; */
   width: 80%;
 }
 
 .button-wrapper{
-/*   border: 1px solid black; */
   margin: 50px 0 0 0px;
   text-align: left;
 }
@@ -88,11 +72,11 @@ button{
 .outer-console{
   width: 80%;
   height: 80%;
-/*   border: 1px solid orange; */
   margin: 5vh auto;
 }
 
 .outer-tv{
+  background: #22667F;
   width: 80%;
   height: 80%;
   border: 5px solid #3388E8;
@@ -100,10 +84,12 @@ button{
   margin: 10vh auto;
 }
 
-#canvas{
+#can{
   display: inline-block;
   border: 1px solid #45CDFF;
   width: 80%;
   height: 80%;
   margin: 3vh auto;
 }
+
+

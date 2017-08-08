@@ -8,13 +8,13 @@ import '../css/login.css';
 export default class Login extends React.Component{
 
 	componentDidMount(){
-		let canvas = document.getElementById('canvas');
-		let ctx = canvas.getContext('2d');
+		let can = document.getElementById('can');
+		let ctx = can.getContext('2d');
 
 		function ballMaker(){
 		  return {
-		    x: Math.floor(Math.random(0) * canvas.width),
-		    y: Math.floor(Math.random(0) * canvas.height),
+		    x: Math.floor(Math.random(0) * can.width),
+		    y: Math.floor(Math.random(0) * can.height),
 		    r: 5,
 		    xSpeed: 3,
 		    ySpeed: 3,
@@ -26,12 +26,12 @@ export default class Login extends React.Component{
 		    update: function(){
 		      this.x += this.xSpeed;
 		      this.y += this.ySpeed;
-		      if(this.x >= canvas.width || this.x <= 0 || this.y >= canvas.height || this.y <= 0){
+		      if(this.x >= can.width || this.x <= 0 || this.y >= can.height || this.y <= 0){
 		        this.xSpeed = -this.xSpeed + Math.floor(Math.random(2) * 5);
 		        this.ySpeed = -this.ySpeed + Math.floor(Math.random(2) * 5);
 		        if(this.xSpeed > 10 || this.ySpeed > 10){
-		          this.x = Math.floor(Math.random(0) * canvas.width);
-		          this.y = Math.floor(Math.random(0) * canvas.height);
+		          this.x = Math.floor(Math.random(0) * can.width);
+		          this.y = Math.floor(Math.random(0) * can.height);
 		          this.xSpeed = 5;
 		          this.ySpeed = 2;
 		        }
@@ -53,7 +53,7 @@ export default class Login extends React.Component{
 
 		setInterval(function(){
 		  ctx.fillStyle = '#fff';
-		  ctx.fillRect(0, 0, canvas.width, canvas.height);
+		  ctx.fillRect(0, 0, can.width, can.height);
 		  ctx.fillStyle = '#5ED4FF';
 		  ballArr.forEach(function(val){
 		    val.update();
@@ -72,7 +72,7 @@ export default class Login extends React.Component{
 				  <div className="left-container">
 				    <div className="outer-console">
 				       <div className="outer-tv">
-				         <canvas id="canvas"></canvas>
+				         <canvas id="can"></canvas>
 				      </div>
 				    </div>
 				    

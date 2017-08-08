@@ -592,8 +592,8 @@ const findLoser = () => {
 	postMessage = () => {			
 		let msg = document.getElementById('message-inp').value;						
 		socket.emit('message', msg, this.state.name);	
-		// this.setMsg('asdf');
-		// this.setShowMsg();
+		this.setMsg('TESTING MODE');
+		this.setShowMsg();
 	}	
 }
 

@@ -4,6 +4,8 @@ import * as actions from '../actions';
 import {connect} from 'react-redux';
 import CanvasMsg from './canvasMsg';
 import '../css/pong.css';
+import Header from './header';
+import Footer from './footer';
 
 export class Pong1 extends React.Component{
 	constructor(props){
@@ -70,13 +72,13 @@ export class Pong1 extends React.Component{
 
 	rightScore(){		
 		this.setState({
-			right_Score: this.state.right_Score + 1
+			right_Score: this.state.right_Score + 100
 		})			
 	}
 
 	leftScore(){		
 		this.setState({
-			left_Score: this.state.left_Score + 1
+			left_Score: this.state.left_Score + 100
 		})			
 	}
 
@@ -132,7 +134,7 @@ export class Pong1 extends React.Component{
 
 	const PADDLE_HEIGHT = 150;
 	const PADDLE_WIDTH = 25;
-	const WIN_SCORE = 3;
+	const WIN_SCORE = 500;
 
 	let vsComp = false;		// Toggle if user needs to play against computer
 	let ballC = {}; 	// Ball coordinates to send over network
@@ -144,7 +146,7 @@ export class Pong1 extends React.Component{
 		r: 10,	// Radius
 		xs: 0,	// X Speed
 		ys: 0,  // Y Speed
-		c: '#ff0000',
+		c: '#fff',
 		score: 0,		
 		move: function(){
 			this.x += this.xs;
@@ -155,7 +157,7 @@ export class Pong1 extends React.Component{
 				if(this.y > lpaddle.y && this.y  < lpaddle.y + lpaddle.h){
 					this.xs *= -1;
 					this.ys *= -1;
-                    
+                   
                     let deltaY = this.y; 
                     -(lpaddle.y + PADDLE_HEIGHT / 2);
                     this.ys = deltaY * 0.025;                                        
@@ -164,7 +166,7 @@ export class Pong1 extends React.Component{
 					
 					that.rightScore(rpaddle.score);
 					this.reset();                 
-					setTimeout(checkWin, 500)         
+					setTimeout(checkWin, 200)         
 				}
 			}
 			else if(this.x + this.r > canvas.width - rpaddle.w){
@@ -179,7 +181,7 @@ export class Pong1 extends React.Component{
 				else {
 					that.leftScore(lpaddle.score);
                     this.reset();                
-                    setTimeout(checkWin, 500)                       
+                    setTimeout(checkWin, 200)                       
 				}
 			}//
 			(this.y + this.r >= canvas.height || this.y - this.r <= 0) ? this.ys *= -1 : this.y = this.y;
@@ -218,7 +220,7 @@ export class Pong1 extends React.Component{
 	let rpaddle = {		
 		x: canvas.width - PADDLE_WIDTH - 1,
 		y: canvas.height / 2 - PADDLE_HEIGHT / 2,
-		h: PADDLE_HEIGHT - 60,
+		h: PADDLE_HEIGHT,
 		w: PADDLE_WIDTH,
 		score: 0,
 		move: function(x, y){
@@ -258,7 +260,7 @@ export class Pong1 extends React.Component{
 	// Render Functions
 	function draw(){	
 		clr();		
-		ctx.fillStyle = '#000';
+		ctx.fillStyle = '#45CDFF';
 		ctx.fillRect(0, 0, canvas.width, canvas.height);		
 		ball.draw();
 		lpaddle.draw();
@@ -268,7 +270,7 @@ export class Pong1 extends React.Component{
 
 	// Clear Screen
 	function clr(){
-		ctx.fillStyle = '#000';
+		ctx.fillStyle = '#45CDFF';
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 	}
 
@@ -306,7 +308,8 @@ export class Pong1 extends React.Component{
 			rightPlayer = 'Computer';
 		}
 		
-		timeMsg(`FINAL SCORE: ${leftPlayer}: ${that.state.left_Score}, ${rightPlayer}: ${that.state.right_Score}`, 5000, ['begin']);
+		timeMsg(`${this.props.state.name}: 
+		${that.state.left_Score}, ${rightPlayer}: ${that.state.right_Score}`, 5000, ['begin']);
 		that.resetScore();	
 		initializeGame();			
 	}
@@ -316,11 +319,10 @@ export class Pong1 extends React.Component{
 		that.resetScore();		
 	}
 
-const findLoser = () => {
-	let loser = (that.state.right_Score > that.state.left_Score) ? 1 : 0;
-	return loser;
-}
-
+	const findLoser = () => {
+		let loser = (that.state.right_Score > that.state.left_Score) ? 1 : 0;
+		return loser;
+	}
 
 	// Check for win
 	function checkWin(){		
@@ -417,7 +419,8 @@ const findLoser = () => {
 		that.setPlayer(0);
 		vsComp = true;
 		start();	
-		beginBall();
+		
+		timeMsg('Begining Game in 5 Seconds', 5000, ['begin']);
 	}
 
 	initialize();
@@ -450,28 +453,31 @@ render(){
 		
 		let msg = (this.state.showMsg) ? <CanvasMsg msg={this.state.msg}/> : undefined;		
 		return(	
+			<div>
+				<Header />
+				<div className="canvas-container">
+					{msg}
 
-			<div className="canvas-container">
-				{msg}
-
-				<canvas 
-					width="600" 
-					height="400" 
-					id="canvas"  
-					ref={(canvas) => { this.canvasRef = canvas; }}>
-				</canvas>
-				<div className="score-board">
-					<div className="left-score">
-						{this.state.leftPlayer}
-					</div>
-					<div className="right-score">
-						{this.state.rightPlayer}
-					</div>
-				</div>	
-				<div className="player-list"></div>
-				
-				<p id="score">{left_Player} {this.state.left_Score}  {right_Player} {this.state.right_Score}</p>
-				
+					<canvas 
+						width="600" 
+						height="400" 
+						id="canvas"  
+						ref={(canvas) => { this.canvasRef = canvas; }}>
+					</canvas>
+					<div className="score-board">
+						<div className="left-score">
+							<p id="score">{this.props.state.name} <span className="left num">{this.state.left_Score}</span></p>
+						</div>
+						<div className="right-score">
+							<p id="score">{right_Player} <span className="right num">{this.state.right_Score}</span></p>
+						</div>
+					</div>	
+					<div className="player-list"></div>
+					
+					
+					
+				</div>
+				<Footer />
 			</div>
 		)						
 	}

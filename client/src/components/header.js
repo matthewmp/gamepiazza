@@ -1,16 +1,11 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import '../css/header.css';
 import pisa from '../assets/pisa.png';
 
 export default class Header extends React.Component{
 	constructor(props){
 		super(props);
-		this.gameGallery = this.gameGallery.bind(this);
-	}
-	
-	gameGallery(){
-		console.log('test');
-		this.props.history.push('/game-gallery');
 	}
 
 	render(){
@@ -26,9 +21,9 @@ export default class Header extends React.Component{
 			      <img className="pisa" src={pisa} alt="Game Piazza" />
 			      
 			      <ul>
-			        <li className="nav-item">Home</li>
-			        <li className="nav-item" onClick={this.gameGallery}>Game Gallery</li>
-			        <li className="nav-item">My Scoreboard</li>
+			        <Link to="/"><li className="nav-item">Home</li></Link>
+			        <Link to="/game-gallery"><li className="nav-item">Game Gallery</li></Link>
+			        <Link to="/scoreboard"><li className="nav-item">My Scoreboard</li></Link>
 			      </ul>
 			    </div>
 			  </nav>

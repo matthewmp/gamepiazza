@@ -2,7 +2,6 @@ import 'isomorphic-fetch';
 require('babel-polyfill');
 
 
-
 // Set initial state after login
 export const LOGIN = 'LOGIN';
 export const login = (user_info) => ({
@@ -44,6 +43,27 @@ export const saveToScoreBoard = score_info => dispatch => {
 		console.log(`Data From Server: ${JSON.stringify(data, null, 4)}`)
 	}).catch(err => console.error(err))
 }
+
+export const getScores = email => dispatch => {
+	console.log(email)
+	const url = `/score/${email}`;
+	fetch(url, {
+		method: 'GET'
+	})
+	.then(response => response.json())
+	.then(function(data){
+		console.log('Data: ', data);
+		dispatch(getScoresSuccess(data));
+	}).catch(err => console.error(err))
+}
+
+export const GET_SCORES_SUCCESS = 'GET_SCORES_SUCCESS';
+export const getScoresSuccess = (data) => ({	
+	
+		type: GET_SCORES_SUCCESS,
+		data
+	
+})
 
 export const validateUser = user_info => dispatch => {
 	const url = '/validate';

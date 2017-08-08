@@ -1,6 +1,5 @@
 .games-wrapper{
 	height: 70vh;
-	border: 1px solid #eee;
 	text-align: center;
 	width: 80%;
 	margin: auto;
@@ -22,4 +21,10 @@
 .game:hover{
 	background: #91E2FF;
 	cursor: pointer;
+}
+
+.beta{
+	 line-height: 0px;
+    margin-top: -50px;
+    color: #ffcc00;
 }

@@ -8,7 +8,7 @@ router.get('/:email', (req, res) => {
 	let email = req.params.email;
 	Users.find({"email": email})
 	.then(resp => {
-		res.status(200).json({users_stats: resp})
+		res.status(200).json({resp})
 	})
 	
 });
