@@ -14,7 +14,7 @@ export const gameReducer = (state=initialState, action) => {
 	if(action.type === actions.LOGIN){		
 		return Object.assign({}, state, {
 			id: action.id,
-			email: action.email,
+			email: action.email || action.id,
 			name: action.name
 		});	
 	}

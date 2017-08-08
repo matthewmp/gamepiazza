@@ -45,7 +45,9 @@ export class Scoreboard extends React.Component{
 			let that = this;	
 			setTimeout(function(){
 				try{
+					console.log(that.props.state);
 					that.setResults(that.props.state.user_scores.resp[0].stats);
+
 				}
 				catch(err){
 					console.log(err);

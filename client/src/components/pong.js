@@ -88,14 +88,14 @@ export class Pong extends React.Component{
 	rightScore(){	
 	console.log('set rightScore');	
 		this.setState({
-			right_Score: this.state.right_Score + 1
+			right_Score: this.state.right_Score + 100
 		})			
 	}
 
 	leftScore(){	
 	console.log('set leftScore');	
 		this.setState({
-			left_Score: this.state.left_Score + 1
+			left_Score: this.state.left_Score + 100
 		})			
 	}
 
@@ -201,7 +201,7 @@ export class Pong extends React.Component{
 
 	let PADDLE_HEIGHT = 150;
 	const PADDLE_WIDTH = 25;
-	const WIN_SCORE = 3;
+	const WIN_SCORE = 500;
 
 	let vsComp = false;		// Toggle if user needs to play against computer
 	let ballC = {}; 	// Ball coordinates to send over network
