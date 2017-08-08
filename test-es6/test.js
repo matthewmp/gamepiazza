@@ -43,7 +43,7 @@ describe('Forum API Resource', function () {
 	});
 
 	after(function () {
-		return tearDown();
+		tearDown();
 		return closeServer();
 	});
 
