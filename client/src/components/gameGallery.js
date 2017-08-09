@@ -37,7 +37,7 @@ export class gameGallery extends React.Component{
 			<section className="game-gallery">
 				<Header />
 				<Games />
-				<BottomBanner />	
+				
 				<Footer />
 			</section>
 		)

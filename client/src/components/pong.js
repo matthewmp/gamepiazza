@@ -37,70 +37,60 @@ export class Pong extends React.Component{
 	}
 
 	setUserState(user){
-		console.log('setUserState');
 		this.setState({
 			name: user.name
 		})
 	}
 
 	setSocketId(id){
-		console.log('setSocketId');
 		this.setState({
 			id
 		})
 	}
 
 	setInPlay(){
-		console.log('setInPlay');
 		this.setState({
 			inplay: !this.state.inplay
 		})		
 	}
 
 	stopInplay(){
-		console.log('stopInplay');
 		this.setState({
 			inplay: false
 		})
 	}
 
 	setPlayer(player){
-		console.log('setPlayer');
 		this.setState({
 			player
 		})
 	}
 
 	setLeftPlayer(player){
-		console.log('setLeftPlayer');
 		this.setState({
 			leftPlayer: player
 		})
 	}
 
 	setRightPlayer(player){
-		console.log('setRightPlayer');
 		this.setState({
 			rightPlayer: player
 		})
 	}
 
 	rightScore(){	
-	console.log('set rightScore');	
 		this.setState({
 			right_Score: this.state.right_Score + 100
 		})			
 	}
 
 	leftScore(){	
-	console.log('set leftScore');	
 		this.setState({
 			left_Score: this.state.left_Score + 100
 		})			
 	}
 
 	resetScore(){
-		console.log('resetScore');
 		this.setState({
 			left_Score: 0,
 			right_Score: 0
@@ -138,8 +128,9 @@ export class Pong extends React.Component{
 	    }
 	    else {
 	      if(histFlag){
-	        console.log(window.location.href)
+	      	socket.emit('leaving');
 	        window.location.replace(window.location.href);
+
 	      }
 	    }
 	   }, 500)
@@ -147,12 +138,7 @@ export class Pong extends React.Component{
 
 
 		if(localStorage.user_info && !this.props.state.name){
-			console.log(this.props.state.name)
-				console.log('NO NAME');
-				console.log(JSON.parse(localStorage.user_info));
 				this.setUserState(JSON.parse(localStorage.user_info));
-				console.log(this.state)
-				console.log(JSON.parse(localStorage.user_info))
 		}
 		this.props.dispatch(actions.login(JSON.parse(localStorage.user_info)));
 
@@ -163,7 +149,6 @@ export class Pong extends React.Component{
 		window.history.pushState({page: 1}, "title 1", "");
 		window.onpopstate = function(event) {  			
 			socket.emit('leaving');
-			//that.back();
 			window.location.replace('game-gallery');
 		};	
 
@@ -225,6 +210,13 @@ export class Pong extends React.Component{
 				
 				if(this.x - this.r < lpaddle.w){
 					if(this.y > lpaddle.y && this.y  < lpaddle.y + lpaddle.h){
+						if(Math.abs(this.xs) >= 15 || Math.abs(this.ys) >= 15){
+							rpaddle.h -= 3;
+						} 
+						
+						this.xs = this.xs < 0 ? this.xs - .4 : this.xs + .4; 
+						this.ys = this.ys < 0 ? this.ys - .4 : this.ys + .4;
+
 						this.xs *= -1;
 						this.ys *= -1;
 	                    
@@ -233,15 +225,19 @@ export class Pong extends React.Component{
 	                    this.ys = deltaY * 0.025;                                        
 					}
 					else {
-						//rpaddle.score++;
-						//that.rightScore(rpaddle.score);
 						socket.emit('score', 'right');					
 						this.reset();                 
-						setTimeout(checkWin, 500)         
+						setTimeout(checkWin, 200)         
 					}
 				}
 				else if(this.x + this.r > canvas.width - rpaddle.w){
 					if(this.y > rpaddle.y && this.y < rpaddle.y + rpaddle.h){
+						if(Math.abs(this.xs) >= 15 || Math.abs(this.ys) >= 15){
+							lpaddle.h -= 3;
+						} 
+						
+						this.xs = this.xs < 0 ? this.xs - .4 : this.xs + .4; 
+						this.ys = this.ys < 0 ? this.ys - .4 : this.ys + .4;
 						this.xs *= -1;
 						this.ys *= -1;
 	                    
@@ -250,13 +246,11 @@ export class Pong extends React.Component{
 	                    this.ys = deltaY * 0.025;                    
 					}
 					else {
-						//lpaddle.score++;					
-						//that.leftScore(lpaddle.score);
 						socket.emit('score', 'left');									
 	                    this.reset();                
-	                    setTimeout(checkWin, 500)                       
+	                    setTimeout(checkWin, 200)                       
 					}
-				}//
+				}
 				(this.y + this.r >= canvas.height || this.y - this.r <= 0) ? this.ys *= -1 : this.y = this.y;
 				ballC.x = this.x;
 				ballC.y = this.y;
@@ -376,8 +370,6 @@ export class Pong extends React.Component{
 		function resetGame(){
 			let obj = saveScore();	
 			that.props.dispatch(actions.saveScore(obj));
-			that.props.dispatch(actions.saveToScoreBoard(obj));
-			console.log(that.props)
 			resetBall();
 			that.setInPlay();
 			
@@ -444,6 +436,9 @@ export class Pong extends React.Component{
 			let score = (that.state.player) ? that.state.right_Score : that.state.left_Score;
 			
 			let local = JSON.parse(localStorage.user_info);
+			if(local.email === undefined){
+				local.email = local.id;
+			}
 			let obj = {
 				email: local.email,
 				name: local.name,
@@ -487,17 +482,28 @@ export class Pong extends React.Component{
 			});
 		
 			// Set First 2 Players in List as Opponents
-			if(this.state.inplay === false && playerList.querySelectorAll('p')[0].innerHTML === this.state.name){						
-				choosePlayerSide(0);					
-			}
-			if(this.state.inplay === false && playerList.querySelectorAll('p')[1].innerHTML === this.state.name){			
-				choosePlayerSide(1);						
-			} 	
+			try{
+				if(this.state.inplay === false && playerList.querySelectorAll('p')[0].innerHTML === this.state.name){						
+					choosePlayerSide(0);					
+				}
+				if(this.state.inplay === false && playerList.querySelectorAll('p')[1].innerHTML === this.state.name){			
+					choosePlayerSide(1);						
+				} 	
 
-			if(document.getElementsByClassName('player-list')[0].children.length === 1 && this.state.inplay){
-					timeMsg('Playing Computer in 5 Seconds', 5000, ['begin']);
-					vsComp = true;
-			} 		
+				if(document.getElementsByClassName('player-list')[0].children.length === 1 && this.state.inplay){
+						timeMsg('Playing Computer in 5 Seconds', 5000, ['begin']);
+						vsComp = true;
+				} 	
+				// if(playerList.querySelectorAll('p')[0].innerHTML === 
+				//    playerList.querySelectorAll('p')[1].innerHTML &&
+				//    playerList.querySelectorAll('p')[0].innerHTML === that.state.name){
+				// 	window.location.reload();
+				// }
+			}
+			catch(err){
+				window.location.reload();
+				console.log(err);
+			}
 	})
 
 		function getLeftMouse(e){
@@ -602,7 +608,7 @@ export class Pong extends React.Component{
 			if(that.state.showMsg){
 				that.setShowMsg();
 			}
-			timeMsg('NEW PLAYER!!!', 2000, ['begin']);
+			timeMsg('NEW GAME', 2000, ['begin']);
 		})
 
 		socket.on('message', (msg, name) => {	

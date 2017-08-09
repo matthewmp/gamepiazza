@@ -24,7 +24,7 @@ console.log('INSIDE saveScore')
 	})
 	.then(response => response.json())
 	.then(function(data){
-		console.log(`Data From Server: ${JSON.stringify(data, null, 4)}`)
+		console.log(`Data From Server Received`);
 	}).catch(err => console.error(err))
 }
 
