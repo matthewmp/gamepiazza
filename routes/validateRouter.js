@@ -4,7 +4,7 @@ const router = express.Router();
 const {Users} = require('../models/userModel');
 
 router.put('/', (req, res) => {
-	let emial;
+	let email;
 	
 	if(req.body.email === undefined){
 		email = req.body.id;
