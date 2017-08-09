@@ -260,7 +260,10 @@ export class Pong extends React.Component{
 				(this.y + this.r >= canvas.height || this.y - this.r <= 0) ? this.ys *= -1 : this.y = this.y;
 				ballC.x = this.x;
 				ballC.y = this.y;
-				socket.emit('ball', ballC);
+				if(that.state.player){
+					socket.emit('ball', ballC);
+				}
+				
 			},
 			draw: function(){
 				ctx.fillStyle = this.c;
