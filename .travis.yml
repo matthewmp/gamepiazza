@@ -2,11 +2,4 @@ language: node_js
 node_js: node
 services:
 - mongodb
-deploy:
-  provider: heroku
-  api_key:
-    secure: gLdfAVtzNY0XWV9tATjNGFHqx1Qhv3cKdYkYSzU4iXdyOEq1FJ8XlGcNCo9lvvzKAK6fKCdZOZtfuzIpN5JICWYm4CCvExjgg1b7o5Yt+2tX6DnwNnzRc85YiVDQDyue0znrHLkqZgqoydobvKeiThzTLyDkd6kTUJIJqr/tmQH2uXxq9v0QTGtJBsVaMzeVVTfDzWLYrTzKOx20RQPywzz86dDf+cmzcUI49HkRmJ/HZWhPPgczFI8lgNfTjbG070s/hlofTcBsguOS8dVoE7FFKe9wQDBjykwoT/CQj1EmLbxqM6xGeN3VCwsRKCtj+svJuXUPY/qdCtnKWCUma9OsT9u8JX0k1fguHN8dE7+E6L+8yVEX3T7ZghkfJiMhga+GgXGA172TJ3uZpJE64m3eSjc/Ph8ggjLVYjYKPj/R18T2TyYFt5IMVbTouCW00tGZSyv2Rqus7MKLL753UX3sH1vDh1LlN6e5tpRkZ/H4Y3mermiT4XBmA6VQBiPsodO4vT59vzVB0cqr3bb/wbQUS2/DGcci4VG6yO/SON8YdZBaoLSLAIHER9TIpnpcfHOl66fL+iq7LrVyv9T/9cHwUQgI/Lf0AdLv+jDr2GXlF243RPTQr1mk0PGgVp3Z5z6X4l1LiXEPL4SN5XmXWFVe1NMJwGRMG3Enmy07Kf0=
-  app: gamepiazza
-  on:
-    repo: mmpal78/gamepiazza
-    branch: old-state-17b927b3
+
