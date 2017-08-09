@@ -112,6 +112,7 @@ export class Pong extends React.Component{
 	}
 
 	componentDidMount(){
+
 	if(!localStorage.user_info){
 			this.props.history.push('/');
 			alert('You Must Be Logged In To Use Site	')
@@ -166,6 +167,9 @@ export class Pong extends React.Component{
 					if(socket.io.engine.id){
 						this.setSocketId(`/pong#${socket.io.engine.id}`);
 					}
+
+	                            
+
 				}
 				catch(err){
 					console.warn('Socket ID not set.  Will try again in 2 seconds');
