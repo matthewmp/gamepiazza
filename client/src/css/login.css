@@ -16,6 +16,7 @@
 }
 
 .slogan-wrapper{
+  height: 70%;
   width: 80%;
   border-left: 1px solid black;
   margin: 10vh 0 10vh 0px;
@@ -92,4 +93,75 @@ button{
   margin: 3vh auto;
 }
 
+@media only screen and (max-width: 732px) and (max-height: 500px){
+  .right-container{
+    margin:0;
+  }
+}
+
+
+@media only screen and (max-width: 545px){
+  .description{
+    display: none;
+  }
+
+  .left-container{
+    display: none;
+  }
+
+  .right-container{
+    width: 100%;
+    padding-left: 40px;
+  }
+
+  .slogan-wrapper{
+    border: none;
+  }
+
+  button{
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 635px){
+  button{
+    margin-top: -100px;
+  }
+}
+
+@media only screen and (max-height: 632px){
+  .description{
+    display: none;
+  }
+
+  slogan-wrapper{
+    margin: 0;
+  }
+
+  button{
+    margin-top: -100px;
+  }
+}
+
+@media only screen and (max-height: 417px){
+  
+  .slogan{
+    font-size: 1em;
+  }
+
+}
+
+@media only screen and (max-width: 325px){
+  .left-container{
+    display: none;
+  }
+
+  .right-container{
+    width: 100%;
+  }
+
+  .slogan-wrapper{
+    border: none;
+  }
+}
 

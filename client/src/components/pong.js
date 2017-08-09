@@ -133,14 +133,11 @@ export class Pong extends React.Component{
 	      
 	    histFlag = false;
 	    hist = setInterval(function(){
-	    console.log('CHECKING URL');
 	    if(window.location.href.indexOf('pong') >= 0){
 	        histFlag = true;
-	        console.log(`histFlag: ${histFlag}`);
 	    }
 	    else {
 	      if(histFlag){
-	        console.log("RUN CODE");
 	        console.log(window.location.href)
 	        window.location.replace(window.location.href);
 	      }
@@ -391,7 +388,7 @@ export class Pong extends React.Component{
 				rightPlayer = 'Computer';
 			}
 			vsComp = false;
-			timeMsg(`Final SCORE: ${leftPlayer}: ${that.state.left_Score}, ${rightPlayer}: ${that.state.right_Score}`, 5000, ['findLoser']);		
+			timeMsg(`${leftPlayer}: ${that.state.left_Score}, ${rightPlayer}: ${that.state.right_Score}`, 5000, ['findLoser']);		
 			that.resetScore();	
 			
 			
@@ -412,7 +409,7 @@ export class Pong extends React.Component{
 				rightPlayer = 'Computer';
 			}
 			vsComp = false;
-			timeMsg(`FINAL SCORE: ${leftPlayer}: ${that.state.left_Score}, ${rightPlayer}: ${that.state.right_Score}`, 5000, ['announce']);
+			timeMsg(`${leftPlayer}: ${that.state.left_Score}, ${rightPlayer}: ${that.state.right_Score}`, 5000, ['announce']);
 			that.resetScore();				
 		}
 
@@ -456,9 +453,9 @@ export class Pong extends React.Component{
 		// Game AI			
 		function computerMovement(){        
 		    if(rpaddle.y + PADDLE_HEIGHT / 2 < ball.y - 35){            
-		        rpaddle.y += 1;    
+		        rpaddle.y += 10;    
 		    } else if(rpaddle.y + PADDLE_HEIGHT / 2 > ball.y + 35){
-		        rpaddle.y += -1;
+		        rpaddle.y += -10;
 		    }	    
 		}	
 
@@ -631,8 +628,6 @@ export class Pong extends React.Component{
 		postMessage = () => {			
 			let msg = document.getElementById('message-inp').value;						
 			socket.emit('message', msg, this.state.name);	
-			this.setMsg('TESTING MODE');
-			this.setShowMsg();
 		}	
 	}
 }

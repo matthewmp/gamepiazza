@@ -25,6 +25,7 @@ canvas{
 }
 
 .player-list-wrapper{
+	display: none;
 	margin-right: 10%;
 }
 
@@ -79,7 +80,7 @@ canvas{
 }
 
 #message-btn{
-	margin-bottom: 20px;
+	margin-top: 5px;
 	display: block;
     border: none;
     background: #37A4CC;
@@ -97,4 +98,16 @@ canvas{
 	font-family: 'Roboto';
     color: #3EB8E5;
 }
+
+@media only screen and (max-width: 770px){
+	canvas{
+		width: 60%;
+	}
+
+	.scoreboard{
+		width: 400px;
+	}
+}
+
+
 

@@ -46,6 +46,7 @@ li:hover{
 }
 
 .mobile{
+  z-index: 10;
   display: none;
   height: 50px;
   width: 50px;
@@ -65,8 +66,9 @@ li:hover{
 }
 
 .mobile-menu{
+  display: none;
   height: 120px;
-  width: 250px;
+  width: 100%;
   position: absolute;
   right: 80px;
   background: #fff;
@@ -78,16 +80,21 @@ li:hover{
 }
 
 .burger-ul{
-
-  margin: -10px 20px;
-  text-align: center;
+  background: #49717F;
+  height: 100%;
+  text-align: right;
+  margin-top: -20px;
 }
 
 .burger-item{
-  color: #5ED4FF;
+  margin-right: 10px;
+  color: #fff;
   display: block;
   margin-top: 20px;
   cursor: pointer;
+}
+a{
+  text-decoration: none;
 }
 
 
@@ -98,6 +105,10 @@ li:hover{
 
   .nav-menu{
     display: none;
+  }
+
+  .mobile-menu{
+    display: block;
   }
 }
 
@@ -122,9 +133,16 @@ li:hover{
 }
 
 @media only screen and (max-width: 320px){
+  .title{
+    font-size: 15px;
+  }
+}
+
+@media only screen and (max-width: 300px){
   .logo-wrapper{
     display: none;
   }
+
   .mobile{
     right: 40%;
   }

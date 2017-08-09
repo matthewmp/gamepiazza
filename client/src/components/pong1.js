@@ -31,6 +31,8 @@ export class Pong1 extends React.Component{
 		this.resetScore = this.resetScore.bind(this);
 		this.back = this.back.bind(this);
 		this.resetMisses = this.resetMisses.bind(this);
+		this.rightMiss = this.rightMiss.bind(this);
+		this.leftMiss = this.leftMiss.bind(this);
 	}
 
 	back(){
@@ -75,14 +77,12 @@ export class Pong1 extends React.Component{
 
 	rightScore(){		
 		this.setState({
-			leftMisses: this.state.leftMisses + 1,
 			right_Score: this.state.right_Score + 100
 		})			
 	}
 
 	leftScore(){		
 		this.setState({
-			rightMisses: this.state.rightMisses + 1,
 			left_Score: this.state.left_Score + 100
 		})			
 	}
@@ -98,6 +98,18 @@ export class Pong1 extends React.Component{
 		this.setState({
 			rightMisses: 0,
 			leftMisses: 0
+		})
+	}
+
+	rightMiss(){
+		this.setState({
+			rightMisses: this.state.rightMisses + 1
+		})
+	}
+
+	leftMiss(){
+		this.setState({
+			leftMisses: this.state.leftMisses + 1
 		})
 	}
 
@@ -125,10 +137,8 @@ export class Pong1 extends React.Component{
 	      
 	    histFlag = false;
 	    hist = setInterval(function(){
-	    console.log('CHECKING URL');
 	    if(window.location.href.indexOf('pong') >= 0){
 	        histFlag = true;
-	        console.log(`histFlag: ${histFlag}`);
 	    }
 	    else {
 	      if(histFlag){
@@ -192,8 +202,13 @@ export class Pong1 extends React.Component{
 				
 				if(this.x - this.r < lpaddle.w){
 					if(this.y > lpaddle.y && this.y  < lpaddle.y + lpaddle.h){
+						if(Math.abs(this.xs) >= 15 || Math.abs(this.ys) >= 15){
+							rpaddle.h -= 3;
+						} 
+						
 						this.xs = this.xs < 0 ? this.xs - .4 : this.xs + .4; 
 						this.ys = this.ys < 0 ? this.ys - .4 : this.ys + .4;
+						
 						that.leftScore(lpaddle.score);
 						this.xs *= -1;
 						this.ys *= -1;
@@ -203,7 +218,7 @@ export class Pong1 extends React.Component{
 	                    this.ys = deltaY * 0.025;                                        
 					}
 					else {
-						
+						that.leftMiss();
 						that.rightScore(rpaddle.score);
 						this.reset();                 
 						setTimeout(checkWin, 200)
@@ -211,8 +226,14 @@ export class Pong1 extends React.Component{
 				}
 				else if(this.x + this.r > canvas.width - rpaddle.w){
 					if(this.y > rpaddle.y && this.y < rpaddle.y + rpaddle.h){
+						if(Math.abs(this.xs) >= 15 || Math.abs(this.ys) >= 15){
+							lpaddle.h -= 3;
+						} 
+						
 						this.xs = this.xs < 0 ? this.xs - .4 : this.xs + .4; 
 						this.ys = this.ys < 0 ? this.ys - .4 : this.ys + .4;
+						
+						
 						that.rightScore(rpaddle.score); 
 						this.xs *= -1;
 						this.ys *= -1;
@@ -222,6 +243,7 @@ export class Pong1 extends React.Component{
 	                    this.ys = deltaY * 0.025;                    
 					}
 					else {
+						that.rightMiss();
 						that.leftScore(lpaddle.score);
 	                    this.reset();                
 	                    setTimeout(checkWin, 200)
@@ -232,6 +254,7 @@ export class Pong1 extends React.Component{
 				ballC.y = this.y;
 			},
 			draw: function(){
+				console.log(`PH: ${PADDLE_HEIGHT}, BS: ${ball.xs}, ${ball.ys}, CS: ${compSpeed}`)
 				ctx.fillStyle = this.c;
 				ctx.beginPath();
 				ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, true);
@@ -336,6 +359,8 @@ export class Pong1 extends React.Component{
 			ball.xs = 0;
 			ball.ys = 0;
 			ball.reset();
+			rpaddle.h = PADDLE_HEIGHT;
+			lpaddle.h = PADDLE_HEIGHT;
 		}
 
 		// Reset Game
@@ -406,7 +431,7 @@ export class Pong1 extends React.Component{
 		//  Set & Show Messages On All Players Screens
 		const timeMsg = (msg, mili, funcs)=>{
 				if(that.state.showMsg){
-							that.setShowMsg();
+					that.setShowMsg();
 				}
 				this.setMsg(msg);
 				this.setShowMsg();			

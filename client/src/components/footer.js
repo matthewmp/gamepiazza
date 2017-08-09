@@ -1,8 +1,15 @@
 import React from 'react';
 import '../css/footer.css';
 
-export default function Footer(props){
-	return <footer>
-		
-			</footer>
+export default class Footer extends React.Component{
+	constructor(props){
+		super(props);
+	}
+
+	render(){
+		return (
+			<footer></footer>
+		)
+	}
+	
 }
