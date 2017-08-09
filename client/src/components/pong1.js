@@ -410,12 +410,16 @@ export class Pong1 extends React.Component{
 			let score = (that.state.player) ? that.state.right_Score : that.state.left_Score;
 			
 			let local = JSON.parse(localStorage.user_info);
+			if(local.email === undefined){
+				local.email = local.id;
+			}
 			let obj = {
 				email: local.email,
 				name: local.name,
 				game: 'pong',
 				score: score
 			}
+			console.log('SAVESCORE: ', obj)
 			return obj;
 		}
 

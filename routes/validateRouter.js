@@ -4,7 +4,15 @@ const router = express.Router();
 const {Users} = require('../models/userModel');
 
 router.put('/', (req, res) => {
-	let email = req.body.email || req.body.id;
+	let emial;
+	
+	if(req.body.email === undefined){
+		email = req.body.id;
+	} 
+	else{
+		email = req.body.email;
+	}
+	console.log(`VALIDATE: ${email}`)
 	let name = req.body.name;
 
 	console.log('BODY: ', req.body)

@@ -5,3 +5,10 @@ footer{
   width: 100vw;
   background: #22667F;
 }
+
+@media only screen and (max-height: 420px){
+    .footer{
+        bottom: -100px;
+    }
+    
+}

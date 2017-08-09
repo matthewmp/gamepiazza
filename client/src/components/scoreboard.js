@@ -44,7 +44,10 @@ export class Scoreboard extends React.Component{
 			this.props.dispatch(actions.login(JSON.parse(localStorage.user_info)))
 			
 			let info = JSON.parse(localStorage.user_info)
-			
+			console.log('SCOREBOARD EMAIL: ', info.id)
+			if(info.email === undefined){
+				info.email = info.id;
+			}
 			try{
 				let results = this.props.dispatch(actions.getScores(info.email));
 				let that = this;	

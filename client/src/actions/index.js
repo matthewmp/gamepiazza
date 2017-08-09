@@ -45,7 +45,6 @@ export const saveToScoreBoard = score_info => dispatch => {
 }
 
 export const getScores = email => dispatch => {
-	console.log(email)
 	const url = `/score/${email}`;
 	fetch(url, {
 		method: 'GET'
