@@ -1,0 +1,25 @@
+.scores{
+	text-align: center;
+	margin-top: 20px;
+	margin: 50px auto;
+}
+
+tr{
+	font-family: 'Roboto';
+}
+
+
+.category{
+	background: #fff;
+	font-weight: 800;
+}
+
+td{
+	background: #91E2FF;
+	width: 1%;
+	padding: 5px;
+}
+
+td:hover{
+	background: #45CDFF;
+}

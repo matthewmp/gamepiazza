@@ -1,0 +1,32 @@
+.bottom-banner{
+  z-index: -1;
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  height: 20vh;
+  background: #5ED4FF;
+}
+
+@media only screen and (max-height: 420px){
+  .bottom-banner{
+    height: 50px;
+  }
+}
+
+@media only screen and (max-height: 478px){
+  .bottom-banner{
+    height: 50px;
+  }
+}
+
+@media only screen and (max-height: 380px){
+  .bottom-banner{
+    display: none;
+  }
+}
+
+@media only screen and (max-height: 600px){
+  .bottom-banner{
+    display: block;
+  }
+}

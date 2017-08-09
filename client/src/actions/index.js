@@ -2,7 +2,6 @@ import 'isomorphic-fetch';
 require('babel-polyfill');
 
 
-
 // Set initial state after login
 export const LOGIN = 'LOGIN';
 export const login = (user_info) => ({
@@ -13,12 +12,69 @@ export const login = (user_info) => ({
 })
 
 
-export const saveScore = score_info => dispatch => {
-	// type: SAVE_SCORE,
-	// score: score_info.score,
-	// name: score_info.name,
-	// game: score_info.game
-	// 
-	//alert('Writing to DB: ' + score_info.name + ' ' + score_info.score + ' ' + score_info.game);
-	console.error("ACTIONS");
+export const saveScore = score_info => dispatch => {	
+console.log('INSIDE saveScore')
+	const url = '/score';
+	fetch(url, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({score_info})
+	})
+	.then(response => response.json())
+	.then(function(data){
+		console.log(`Data From Server Received`);
+	}).catch(err => console.error(err))
+}
+
+export const saveToScoreBoard = score_info => dispatch => {	
+	const url = '/score/pong';
+	console.warn(url);
+	fetch(url, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({score_info})
+	})
+	.then(response => response.json())
+	.then(function(data){
+		console.log(`Data From Server: ${JSON.stringify(data, null, 4)}`)
+	}).catch(err => console.error(err))
+}
+
+export const getScores = email => dispatch => {
+	const url = `/score/${email}`;
+	fetch(url, {
+		method: 'GET'
+	})
+	.then(response => response.json())
+	.then(function(data){
+		console.log('Data: ', data);
+		dispatch(getScoresSuccess(data));
+	}).catch(err => console.error(err))
+}
+
+export const GET_SCORES_SUCCESS = 'GET_SCORES_SUCCESS';
+export const getScoresSuccess = (data) => ({	
+	
+		type: GET_SCORES_SUCCESS,
+		data
+	
+})
+
+export const validateUser = user_info => dispatch => {
+	const url = '/validate';
+	fetch(url, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(user_info)
+	})
+	.then(response => response.json())
+	.then(function(data){
+		console.log(data);
+	}).catch(err => console.error(err));
 }

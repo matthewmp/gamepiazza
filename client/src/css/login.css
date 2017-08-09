@@ -1,0 +1,167 @@
+.main-container{
+  height: 70vh;
+  width: 85vw;
+  text-align: center;
+  margin: auto;
+}
+
+.left-container, .right-container{
+  display: inline-block;
+
+  height: 70%;
+  min-width: 30vw;
+  width: 40vw;
+  vertical-align: top;
+  margin: 10vh 0 0 0;
+}
+
+.slogan-wrapper{
+  height: 70%;
+  width: 80%;
+  border-left: 1px solid black;
+  margin: 10vh 0 10vh 0px;
+  padding-left: 50px;
+}
+
+.text-container{
+  border: 1px solid black;
+}
+
+.slogan{
+  text-align: left;
+  color: #3EB8E5;
+  font-family: 'Roboto';
+  font-size: 1.7em;
+  letter-spacing: 3px;
+}
+
+.slogan-title{
+  text-align: left;
+  margin-bottom: 10px;
+  color: #22667F;
+  font-family: 'Poppins';
+  letter-spacing: 1.5px;
+}
+
+.description{
+  margin-top: 20px;
+  text-align: left;
+  font-family: 'Poppins';
+  font-size: 1em;
+  line-height: 1.2em;
+  color: #555;
+  width: 80%;
+}
+
+.button-wrapper{
+  margin: 50px 0 0 0px;
+  text-align: left;
+}
+
+button{
+  border: none;
+  height: 50px;
+  width: 70%;
+  color: #fff;
+  font-family: 'Poppins';
+  font-size: 1em;
+  background: #33E7E8;
+}
+
+/* Art Work */
+
+.outer-console{
+  width: 80%;
+  height: 80%;
+  margin: 5vh auto;
+}
+
+.outer-tv{
+  background: #22667F;
+  width: 80%;
+  height: 80%;
+  border: 5px solid #3388E8;
+  border-radius: 10px;
+  margin: 10vh auto;
+}
+
+#can{
+  display: inline-block;
+  border: 1px solid #45CDFF;
+  width: 80%;
+  height: 80%;
+  margin: 3vh auto;
+}
+
+@media only screen and (max-width: 732px) and (max-height: 500px){
+  .right-container{
+    margin:0;
+  }
+}
+
+
+@media only screen and (max-width: 545px){
+  .description{
+    display: none;
+  }
+
+  .left-container{
+    display: none;
+  }
+
+  .right-container{
+    width: 100%;
+    padding-left: 40px;
+  }
+
+  .slogan-wrapper{
+    border: none;
+  }
+
+  button{
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 635px){
+  button{
+    margin-top: -100px;
+  }
+}
+
+@media only screen and (max-height: 632px){
+  .description{
+    display: none;
+  }
+
+  slogan-wrapper{
+    margin: 0;
+  }
+
+  button{
+    margin-top: -100px;
+  }
+}
+
+@media only screen and (max-height: 417px){
+  
+  .slogan{
+    font-size: 1em;
+  }
+
+}
+
+@media only screen and (max-width: 325px){
+  .left-container{
+    display: none;
+  }
+
+  .right-container{
+    width: 100%;
+  }
+
+  .slogan-wrapper{
+    border: none;
+  }
+}
+
