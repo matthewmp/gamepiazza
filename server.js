@@ -142,7 +142,7 @@ function runServer(databaseUrl=DATABASE_URL, port=PORT) {
 
       server = app.listen(port, () => {
         console.log(`Your app is listening on port ${port}`);
-        //startSocketIO();
+        startSocketIO();
         resolve();
       })
       .on('error', err => {
