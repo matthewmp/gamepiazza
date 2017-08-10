@@ -131,8 +131,11 @@ function startSocketIO(){
 let server;
 
 function runServer(databaseUrl=DATABASE_URL, port=PORT) {
+	console.log('\n\n\n');
+	console.log(`DB URL: ${databaseUrl} PORT: ${port}`)
+	console.log('\n\n\n');
   return new Promise((resolve, reject) => {
-    mongoose.connect(databaseUrl, { useMongoClient: true }, err => {
+    mongoose.connect(databaseUrl, err => {
       if (err) {
         return reject(err);
       }
