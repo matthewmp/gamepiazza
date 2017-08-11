@@ -3,29 +3,9 @@ import '../css/footer.css';
 import BottomBanner from  './bottom-banner';
 
 export default class Footer extends React.Component{
-	constructor(props){
-		super(props);
-	}
-
-	footerBottom(){
-		document.querySelector('footer').style.top = document.body.scrollHeight - 50  + 'px';
-		document.getElementsByClassName('bottom-banner')[0].style.top = document.body.scrollHeight - 100  + 'px';
-	}
-
-	componentDidMount(){
-		let that = this;
-		window.addEventListener('scroll', function(){
-			that.footerBottom();
-		})
-
-		window.addEventListener('resize', function(){
-			that.footerBottom();
-		})
-	}
-
 	render(){
 		return (
-			<section>
+			<section className="footer-wrapper">
 				<BottomBanner />
 				<footer>
 					<p className="footer">Made by <span className="f-white">Matthew Palumbo</span></p>
