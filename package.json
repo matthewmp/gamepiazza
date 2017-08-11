@@ -22,6 +22,10 @@
   },
   "scripts": {
     "test": "mocha --compilers js:babel-register",
+    "prestart": "npm babelserver && cd ./client && npm install && npm run build && cd ../server && npm start",
+    "babelserver":  "babel ./server -d prod && buildclient",
+    "buildclient": "cd ./client && npm install && npm run build && npm startserver",
+    "startserver": "cd ../server && npm start",
     "start": "node server.js",
     "build-test": "babel test-es6 --out-dir test"
   },
