@@ -14,14 +14,13 @@ var scoreRouter = require('./routes/scoreRouter');
 var validateRouter = require('./routes/validateRouter');
 
 var app = express();
-//const server = app.listen(3001);
 
 mongoose.Promise = global.Promise;
 console.log('Server Running');
 
 var playersList = [];
 
-app.use(express.static('static'));
+app.use(express.static('/client/build'));
 app.use(morgan('common'));
 app.use(bodyParser.json());
 
