@@ -16,7 +16,7 @@ console.log('Server Running');
 
 let playersList = [];
 
-app.use(express.static('/client/build'));
+app.use(express.static('/client/build/static'));
 app.use(morgan('common'));
 app.use(bodyParser.json());
 
