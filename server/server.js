@@ -10,7 +10,6 @@ const validateRouter = require('./routes/validateRouter');
 
 
 const app = express();
-//const server = app.listen(3001);
 
 mongoose.Promise = global.Promise;
 console.log('Server Running');
