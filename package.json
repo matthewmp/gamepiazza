@@ -23,7 +23,7 @@
   "scripts": {
     "test": "mocha --compilers js:babel-register",
     "babelserver": "babel ./server -d prod",
-    "start": "npm run babelserver && cd ./client && npm install && npm run build -d && cd ../ && node prod/server.js",
+    "start": "npm run babelserver && cd ./client && npm install && npm run build && cd ../ && node prod/server.js",
     "build-test": "babel test-es6 --out-dir test"
   },
   "repository": {
