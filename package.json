@@ -18,6 +18,7 @@
   },
   "scripts": {
     "test": "mocha --compilers js:babel-register",
+    "prestart": "npm run babelserver && npm run setupclient",
     "babelserver": "babel ./server -d prod",
     "setupclient": "cd ./client && npm install && npm run build && cd ../",
     "start": "node prod/server.js",
