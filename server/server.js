@@ -16,7 +16,7 @@ console.log('Server Running');
 
 // Track players entering room
 let playersList = [];
-
+console.log(__dirname);
 app.use('/', express.static('../client/build'));
 app.use(morgan('common'));
 app.use(bodyParser.json());
