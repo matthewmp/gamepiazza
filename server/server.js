@@ -7,6 +7,7 @@ const {PORT, DATABASE_URL} = require('./config');
 const socket = require('socket.io');
 const scoreRouter = require('./routes/scoreRouter');
 const validateRouter = require('./routes/validateRouter');
+const path = require('path');
 
 
 const app = express();
@@ -17,7 +18,7 @@ console.log('Server Running');
 // Track players entering room
 let playersList = [];
 console.log(__dirname);
-app.use('/', express.static('../client/build'));
+app.use('/', express.static(path.join(__dirname, '../client/build')));
 app.use(morgan('common'));
 app.use(bodyParser.json());
 

@@ -12,6 +12,7 @@ var _require = require('./config'),
 var socket = require('socket.io');
 var scoreRouter = require('./routes/scoreRouter');
 var validateRouter = require('./routes/validateRouter');
+var path = require('path');
 
 var app = express();
 
@@ -20,8 +21,8 @@ console.log('Server Running');
 
 // Track players entering room
 var playersList = [];
-
-app.use('/', express.static('../client/build'));
+console.log(__dirname);
+app.use('/', express.static(path.join(__dirname, '../client/build')));
 app.use(morgan('common'));
 app.use(bodyParser.json());
 
