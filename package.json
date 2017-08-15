@@ -9,6 +9,7 @@
     "babel-preset-es2015": "^6.24.1",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
+    "morgan": "^1.8.2",
     "mongoose": "^4.9.5",
     "socket.io": "^2.0.3"
   },
@@ -19,7 +20,6 @@
     "test": "mocha --compilers js:babel-register",
     "babelserver": "babel ./server -d prod",
     "setupclient": "cd ./client && npm install && npm run build && cd ../",
-    "prestart": "npm run babelserver && npm run setupclient",
     "start": "node prod/server.js",
     "build-test": "babel test-es6 --out-dir test"
   },

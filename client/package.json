@@ -25,8 +25,7 @@
     "babel-loader": "^7.1.1",
     "babel-polyfill": "^6.23.0",
     "install": "^0.10.1",
-    "npm": "^5.3.0",
-    "react-dom": "^15.6.1"
+    "npm": "^5.3.0"
   },
   "proxy": "http://localhost:3001/",
   "config": {
