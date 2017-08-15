@@ -14,6 +14,7 @@ const app = express();
 mongoose.Promise = global.Promise;
 console.log('Server Running');
 
+// Track players entering room
 let playersList = [];
 
 app.use(express.static('/client/build'));
