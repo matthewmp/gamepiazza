@@ -18,6 +18,7 @@ var app = express();
 mongoose.Promise = global.Promise;
 console.log('Server Running');
 
+// Track players entering room
 var playersList = [];
 
 app.use(express.static('/client/build'));

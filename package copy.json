@@ -10,10 +10,15 @@
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "mongoose": "^4.9.5",
+    "morgan": "^1.8.2",
     "socket.io": "^2.0.3"
   },
   "devDependencies": {
-    "babel-register": "^6.24.1"
+    "babel-register": "^6.24.1",
+    "chai": "^4.1.0",
+    "chai-http": "^3.0.0",
+    "faker": "^4.1.0",
+    "mocha": "^3.4.2"
   },
   "scripts": {
     "test": "mocha --compilers js:babel-register",
