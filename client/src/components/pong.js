@@ -128,8 +128,8 @@ export class Pong extends React.Component{
 	    }
 	    else {
 	      if(histFlag){
+	      	alert('Leaving');
 	      	socket.emit('leaving');
-	      	console.log('Leaving');
 	        //window.location.replace(window.location.href);
 
 	      }
