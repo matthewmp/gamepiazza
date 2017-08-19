@@ -23,11 +23,7 @@ export class gameGallery extends React.Component{
 			console.log('NO NAME');
 			console.log(JSON.parse(localStorage.user_info));
 			this.props.dispatch(actions.login(JSON.parse(localStorage.user_info)));
-		}
-		
-		
-		
-		
+		}		
 	}
 
 	render(){
