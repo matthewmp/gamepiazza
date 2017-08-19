@@ -129,7 +129,7 @@ export class Pong extends React.Component{
 	    else {
 	      if(histFlag){
 	      	socket.emit('leaving');
-	        window.location.replace(window.location.href);
+	        //window.location.replace(window.location.href);
 
 	      }
 	    }
