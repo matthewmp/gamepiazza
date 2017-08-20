@@ -144,7 +144,7 @@ export class Pong1 extends React.Component{
 	      if(histFlag){
 	        console.log("RUN CODE");
 	        console.log(window.location.href)
-	        window.location.replace(window.location.href);
+	        //window.location.replace(window.location.href);
 	      }
 	    }
 	   }, 500)
@@ -162,10 +162,10 @@ export class Pong1 extends React.Component{
 		let timeOutArr = []; // hold all timeout values
 		let that = this;
 
-		window.history.pushState({page: 1}, "title 1", "");
-		window.onpopstate = function(event) {  			
-			window.location.replace('game-gallery');
-		};	
+		// window.history.pushState({page: 1}, "title 1", "");
+		// window.onpopstate = function(event) {  			
+		// 	window.location.replace('game-gallery');
+		// };	
 
 
 
@@ -253,8 +253,7 @@ export class Pong1 extends React.Component{
 				ballC.x = this.x;
 				ballC.y = this.y;
 			},
-			draw: function(){
-				console.log(`PH: ${PADDLE_HEIGHT}, BS: ${ball.xs}, ${ball.ys}, CS: ${compSpeed}`)
+			draw: function(){				
 				ctx.fillStyle = this.c;
 				ctx.beginPath();
 				ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, true);

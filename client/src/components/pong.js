@@ -128,8 +128,8 @@ export class Pong extends React.Component{
 	    }
 	    else {
 	      if(histFlag){
-	      	alert('Leaving');
 	      	socket.emit('leaving');
+	      	clearInterval(hist);
 	        //window.location.replace(window.location.href);
 
 	      }
@@ -147,10 +147,10 @@ export class Pong extends React.Component{
 		let that = this;
 		
 		let socket = io.connect('/pong');
-		window.history.pushState({page: 1}, "title 1", "");
+		//window.history.pushState({page: 1}, "title 1", "");
 		window.onpopstate = function(event) {  			
 			socket.emit('leaving');
-			window.location.replace('game-gallery');
+			//window.location.replace('game-gallery');
 		};	
 
 		//Grab socket.io session ID
@@ -472,38 +472,40 @@ export class Pong extends React.Component{
 			resetBall();
 			that.resetScore();
 
-			let playerList = document.getElementsByClassName('player-list')[0];
-			playerList.innerHTML = '';
+			if(window.location.href.indexOf('pong') >= 0){
+				let playerList = document.getElementsByClassName('player-list')[0];
+				playerList.innerHTML = '';
 
-			// Append Players List on Clients
-			list.forEach(function(val, ind){
-				let p = document.createElement('p');
-				p.innerHTML  = val.name;
-				playerList.appendChild(p)
-			});
-		
-			// Set First 2 Players in List as Opponents
-			try{
-				if(this.state.inplay === false && playerList.querySelectorAll('p')[0].innerHTML === this.state.name){						
-					choosePlayerSide(0);					
+				// Append Players List on Clients
+				list.forEach(function(val, ind){
+					let p = document.createElement('p');
+					p.innerHTML  = val.name;
+					playerList.appendChild(p)
+				});
+			
+				// Set First 2 Players in List as Opponents
+				try{
+					if(this.state.inplay === false && playerList.querySelectorAll('p')[0].innerHTML === this.state.name){						
+						choosePlayerSide(0);					
+					}
+					if(this.state.inplay === false && playerList.querySelectorAll('p')[1].innerHTML === this.state.name){			
+						choosePlayerSide(1);						
+					} 	
+
+					if(document.getElementsByClassName('player-list')[0].children.length === 1 && this.state.inplay){
+							timeMsg('Playing Computer in 5 Seconds', 5000, ['begin']);
+							vsComp = true;
+					} 	
+					// if(playerList.querySelectorAll('p')[0].innerHTML === 
+					//    playerList.querySelectorAll('p')[1].innerHTML &&
+					//    playerList.querySelectorAll('p')[0].innerHTML === that.state.name){
+					// 	window.location.reload();
+					// }
 				}
-				if(this.state.inplay === false && playerList.querySelectorAll('p')[1].innerHTML === this.state.name){			
-					choosePlayerSide(1);						
-				} 	
-
-				if(document.getElementsByClassName('player-list')[0].children.length === 1 && this.state.inplay){
-						timeMsg('Playing Computer in 5 Seconds', 5000, ['begin']);
-						vsComp = true;
-				} 	
-				// if(playerList.querySelectorAll('p')[0].innerHTML === 
-				//    playerList.querySelectorAll('p')[1].innerHTML &&
-				//    playerList.querySelectorAll('p')[0].innerHTML === that.state.name){
-				// 	window.location.reload();
-				// }
-			}
-			catch(err){
-				window.location.reload();
-				console.log(err);
+				catch(err){
+					//window.location.reload();
+					console.log(err);
+				}
 			}
 	})
 
@@ -609,6 +611,7 @@ export class Pong extends React.Component{
 			if(that.state.showMsg){
 				that.setShowMsg();
 			}
+			resetBall();
 			timeMsg('NEW GAME', 2000, ['begin']);
 		})
 
