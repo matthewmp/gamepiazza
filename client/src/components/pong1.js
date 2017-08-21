@@ -144,6 +144,7 @@ export class Pong1 extends React.Component{
 	      if(histFlag){
 	        console.log("RUN CODE");
 	        console.log(window.location.href)
+	        clearInterval(hist);
 	        //window.location.replace(window.location.href);
 	      }
 	    }

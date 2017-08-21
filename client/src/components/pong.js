@@ -190,7 +190,7 @@ export class Pong extends React.Component{
 
 		let PADDLE_HEIGHT = 150;
 		const PADDLE_WIDTH = 25;
-		const WIN_SCORE = 500;
+		const WIN_SCORE = 5000;
 
 		let vsComp = false;		// Toggle if user needs to play against computer
 		let ballC = {}; 	// Ball coordinates to send over network
@@ -212,7 +212,8 @@ export class Pong extends React.Component{
 				if(this.x - this.r < lpaddle.w){
 					if(this.y > lpaddle.y && this.y  < lpaddle.y + lpaddle.h){
 						if(Math.abs(this.xs) >= 15 || Math.abs(this.ys) >= 15){
-							rpaddle.h -= 3;
+							console.log('emit');
+							socket.emit('shrink_paddle');
 						} 
 						
 						this.xs = this.xs < 0 ? this.xs - .4 : this.xs + .4; 
@@ -223,7 +224,9 @@ export class Pong extends React.Component{
 	                    
 	                    let deltaY = this.y; 
 	                    -(lpaddle.y + PADDLE_HEIGHT / 2);
-	                    this.ys = deltaY * 0.025;                                        
+	                    this.ys = deltaY * 0.025; 
+
+	                    socket.emit('score', 'left');                                       
 					}
 					else {
 						socket.emit('score', 'right');					
@@ -234,7 +237,8 @@ export class Pong extends React.Component{
 				else if(this.x + this.r > canvas.width - rpaddle.w){
 					if(this.y > rpaddle.y && this.y < rpaddle.y + rpaddle.h){
 						if(Math.abs(this.xs) >= 15 || Math.abs(this.ys) >= 15){
-							lpaddle.h -= 3;
+							console.log('emit')
+							socket.emit('shrink_paddle');
 						} 
 						
 						this.xs = this.xs < 0 ? this.xs - .4 : this.xs + .4; 
@@ -244,7 +248,9 @@ export class Pong extends React.Component{
 	                    
 	                    let deltaY = this.y; 
 	                    -(rpaddle.y + PADDLE_HEIGHT / 2);
-	                    this.ys = deltaY * 0.025;                    
+	                    this.ys = deltaY * 0.025; 
+
+	                    socket.emit('score', 'right');                   
 					}
 					else {
 						socket.emit('score', 'left');									
@@ -471,6 +477,8 @@ export class Pong extends React.Component{
 			vsComp = false;
 			resetBall();
 			that.resetScore();
+			rpaddle = PADDLE_HEIGHT;
+			lpaddle = PADDLE_HEIGHT;
 
 			if(window.location.href.indexOf('pong') >= 0){
 				let playerList = document.getElementsByClassName('player-list')[0];
@@ -613,6 +621,12 @@ export class Pong extends React.Component{
 			}
 			resetBall();
 			timeMsg('NEW GAME', 2000, ['begin']);
+		})
+
+		socket.on('shrink_paddle', () => {
+			console.log(`SHRINK: ${lpaddle.h}, ${rpaddle.h}`)
+			lpaddle.h -= 3;
+			rpaddle.h -= 3;
 		})
 
 		socket.on('message', (msg, name) => {	
