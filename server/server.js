@@ -100,6 +100,10 @@ function startSocketIO(){
 			//io.sockets.emit('reset');
 		})
 
+		socket.on('shrink_paddle', () => {
+			nsp.emit('shrink_paddle');
+		})
+
 		socket.on('disconnect', () => {
 			console.log('DISCONNECTING');
 			console.log(socket.id);

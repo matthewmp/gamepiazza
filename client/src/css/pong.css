@@ -29,6 +29,10 @@ canvas{
 	margin-right: 10%;
 }
 
+.player-list{
+	display: none;
+}
+
 .message-wrapper:{
 	margin-left: 10%;
 }
@@ -102,11 +106,17 @@ canvas{
 
 @media only screen and (max-width: 770px){
 	canvas{
-		width: 60%;
+		width: 95%;
 	}
 
 	.scoreboard{
 		width: 400px;
+	}
+}
+
+@media only screen and (max-width: 525px){
+	.scoreboard{
+		width: 300px;
 	}
 }
 
