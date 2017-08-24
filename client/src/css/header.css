@@ -27,7 +27,7 @@ li{
   display: inline-block;
   list-style: none;
   padding: 0 0 0 20px;
-  font-family: arial;
+  font-family: 'Poppins';
   margin-top: 60px;
   color: #fff;
 }
@@ -66,9 +66,10 @@ li:hover{
 }
 
 .mobile-menu{
+  z-index: 100;
   display: none;
   height: 120px;
-  width: 100%;
+  width: 0%;
   position: absolute;
   right: 80px;
   background: #fff;
@@ -80,15 +81,20 @@ li:hover{
 }
 
 .burger-ul{
-  background: #49717F;
-  height: 100%;
+  box-shadow: -5px 10px 40px #222;
+  background: #fff;
+  height: 90vh;
+  width: 170px;
   text-align: right;
-  margin-top: -20px;
+  position: absolute;
+  right: 0px;
+  border: 1px solid#eee;
+  color: #222;
 }
 
 .burger-item{
+  text-decoration: underline;
   margin-right: 10px;
-  color: #fff;
   display: block;
   margin-top: 20px;
   cursor: pointer;
@@ -109,6 +115,10 @@ a{
 
   .mobile-menu{
     display: block;
+  }
+
+  li{
+    color: #222;
   }
 }
 

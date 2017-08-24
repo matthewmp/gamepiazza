@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import CanvasMsg from './canvasMsg';
 import '../css/pong.css';
 import Header from './header';
-import Footer from './footer';
 
 export class Pong1 extends React.Component{
 	constructor(props){
@@ -549,7 +548,6 @@ render(){
 					
 					
 				</div>
-				<Footer />
 			</div>
 		)						
 	}

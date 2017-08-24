@@ -4,7 +4,6 @@ import * as actions from '../actions';
 import {connect} from 'react-redux';
 import CanvasMsg from './canvasMsg';
 import Header from './header';
-import Footer from './footer';
 
 const io = require('socket.io-client');
 
@@ -107,8 +106,6 @@ export class Pong extends React.Component{
 		this.setState({
 			showMsg: !this.state.showMsg
 		})
-
-
 	}
 
 	componentDidMount(){
@@ -189,9 +186,15 @@ export class Pong extends React.Component{
 		let canvas = document.getElementById('canvas');
 		let ctx = canvas.getContext('2d');
 
-		let PADDLE_HEIGHT = 150;
+		let PADDLE_HEIGHT = canvas.height / 3;
 		const PADDLE_WIDTH = 25;
 		const WIN_SCORE = 500;
+
+		window.addEventListener('resize', function(){
+			resize();
+		})
+
+		resize();
 
 		let vsComp = false;		// Toggle if user needs to play against computer
 		let ballC = {}; 	// Ball coordinates to send over network
@@ -359,7 +362,23 @@ export class Pong extends React.Component{
 		function beginBall(){
 			ball.xs = -10;
 			ball.ys = 6;
-		}	
+		}
+
+		// Resize Paddles on Window Resize
+		function resize(){
+			if(window.innerWidth <= 650){
+				if(that.state.player){
+					console.log("Getting Right Mouse");
+					canvas.removeEventListener('mousemove', getRightMouse);
+					canvas.addEventListener('mousemove', getRightMouse);
+
+				} else {
+					console.log("Getting Left Mouse");
+					canvas.removeEventListener('mousemove', getLeftMouse);	
+					canvas.addEventListener('mousemove', getLeftMouse);
+				}
+			}
+		}
 
 		// Reset Game & Scores
 		
@@ -514,14 +533,25 @@ export class Pong extends React.Component{
 	})
 
 		function getLeftMouse(e){
-					let mousePos = calcMousePos(e);			
+					let mousePos = calcMousePos(e);
 					lpaddle.y = mousePos.y - PADDLE_HEIGHT / 2;
+					if(window.innerWidth <= 550){			
+						lpaddle.y = mousePos.y;
+					} 
+					if(window.innerWidth <= 505){
+						lpaddle.y = mousePos.y  + 250;
+					}
+					
 					socket.emit('mousePos', mousePos);				
 			}
 
 		function getRightMouse(e){
-				let mousePos = calcMousePos(e);			
-				rpaddle.y = mousePos.y - PADDLE_HEIGHT / 2;
+				let mousePos = calcMousePos(e);	
+				if(canvas.width >= 550){		
+					rpaddle.y = mousePos.y;
+				} else {
+					rpaddle.y = mousePos.y;
+				}
 				socket.emit('mousePos', mousePos);				
 		}
 		
@@ -551,6 +581,12 @@ export class Pong extends React.Component{
 		 		socket.emit('newplayer');
 			}		
 		}
+
+		window.addEventListener('resize', function(){
+			resize();
+		})
+
+		resize();
 
 
 	//  Set & Show Messages On All Players Screens

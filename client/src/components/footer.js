@@ -3,6 +3,36 @@ import '../css/footer.css';
 import BottomBanner from  './bottom-banner';
 
 export default class Footer extends React.Component{
+	constructor(props){
+		super(props);
+	}
+
+	footerResize(){
+		var footer = document.getElementsByClassName('footer-wrapper')[0];
+		var body = document.body, html = document.documentElement;
+		var height = Math.max( body.scrollHeight, body.offsetHeight, 
+			html.clientHeight, html.scrollHeight, html.offsetHeight );
+
+		footer.style.top = height + 'px';
+	}
+
+	ComponentDidMount(){
+		window.addEventListener('resize', function(){
+			console.log('resize');
+			this.footerResize();
+		})
+
+		window.addEventListener('scroll', function(){
+			console.log('scroll');
+			this.footerResize();
+		})
+
+		window.addEventListener("orientationchange", function() {
+			console.log('orientation');
+		    this.footerResize();
+		})
+	}
+
 	render(){
 		return (
 			<section className="footer-wrapper">

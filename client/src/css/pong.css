@@ -115,8 +115,14 @@ canvas{
 }
 
 @media only screen and (max-width: 525px){
-	.scoreboard{
+	.score-board{
 		width: 300px;
+	}
+}
+
+@media only screen and (max-height: 465px){
+	.bottom-banner{
+		display: none;
 	}
 }
 

@@ -69,7 +69,6 @@
 	}
 
 	.bottom-banner{
-		position: absolute;
-		height: 100px;
+		display: none;
 	}
 }
