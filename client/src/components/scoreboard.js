@@ -29,6 +29,10 @@ export class Scoreboard extends React.Component{
 	}
 
 	componentDidMount(){
+	let footWrap = document.getElementsByClassName('footer-wrapper')[0];
+	footWrap.style.height = '30px';
+	footWrap.style.paddingBottom = '135px';
+			
 	if(!localStorage.user_info){
 			this.props.history.push('/');
 			alert('You Must Be Logged In To Use Site');

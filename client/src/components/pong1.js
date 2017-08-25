@@ -202,12 +202,12 @@ export class Pong1 extends React.Component{
 				
 				if(this.x - this.r < lpaddle.w){
 					if(this.y > lpaddle.y && this.y  < lpaddle.y + lpaddle.h){
-						if(Math.abs(this.xs) >= 15 || Math.abs(this.ys) >= 15){
+						if(Math.abs(this.xs) >= 10 || Math.abs(this.ys) >= 10){
 							rpaddle.h -= 3;
 						} 
 						
-						this.xs = this.xs < 0 ? this.xs - .4 : this.xs + .4; 
-						this.ys = this.ys < 0 ? this.ys - .4 : this.ys + .4;
+						this.xs = this.xs < 0 ? this.xs - .1 : this.xs + .1; 
+						this.ys = this.ys < 0 ? this.ys - .1 : this.ys + .1;
 						
 						that.leftScore(lpaddle.score);
 						this.xs *= -1;
@@ -226,12 +226,12 @@ export class Pong1 extends React.Component{
 				}
 				else if(this.x + this.r > canvas.width - rpaddle.w){
 					if(this.y > rpaddle.y && this.y < rpaddle.y + rpaddle.h){
-						if(Math.abs(this.xs) >= 15 || Math.abs(this.ys) >= 15){
+						if(Math.abs(this.xs) >= 10 || Math.abs(this.ys) >= 10){
 							lpaddle.h -= 3;
 						} 
 						
-						this.xs = this.xs < 0 ? this.xs - .4 : this.xs + .4; 
-						this.ys = this.ys < 0 ? this.ys - .4 : this.ys + .4;
+						this.xs = this.xs < 0 ? this.xs - .1 : this.xs + .1; 
+						this.ys = this.ys < 0 ? this.ys - .1 : this.ys + .1;
 						
 						
 						that.rightScore(rpaddle.score); 
@@ -341,16 +341,15 @@ export class Pong1 extends React.Component{
 
 		// Start Game Animation
 		function start() {						
-				setInterval(function(){			
-					update();			
-					draw();
-				}, 1000/frames);
+			update();			
+			draw();
+			requestAnimationFrame(start);
 		}
 
 		// Set Initial Ball Speed
 		function beginBall(){
-			ball.xs = 7;
-			ball.ys = Math.floor(Math.random(2) * 8);
+			ball.xs = 4;
+			ball.ys = Math.floor(Math.random(1) * 3);
 		}	
 
 		// Reset Game & Scores
@@ -490,7 +489,7 @@ export class Pong1 extends React.Component{
 			
 			that.setPlayer(0);
 			vsComp = true;
-			start();	
+			requestAnimationFrame(start);	
 			
 			timeMsg('Begining Game in 5 Seconds', 5000, ['begin']);
 		}

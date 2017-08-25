@@ -535,13 +535,6 @@ export class Pong extends React.Component{
 		function getLeftMouse(e){
 					let mousePos = calcMousePos(e);
 					lpaddle.y = mousePos.y - PADDLE_HEIGHT / 2;
-					if(window.innerWidth <= 550){			
-						lpaddle.y = mousePos.y;
-					} 
-					if(window.innerWidth <= 505){
-						lpaddle.y = mousePos.y  + 250;
-					}
-					
 					socket.emit('mousePos', mousePos);				
 			}
 

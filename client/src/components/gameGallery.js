@@ -13,13 +13,6 @@ export class gameGallery extends React.Component{
 	}
 
 	componentDidMount(){
-		var footer = document.getElementsByClassName('footer-wrapper')[0];
-		var body = document.body, html = document.documentElement;
-		var height = Math.max( body.scrollHeight, body.offsetHeight, 
-			html.clientHeight, html.scrollHeight, html.offsetHeight );
-
-		footer.style.top = height + 'px';
-
 		if(!localStorage.user_info){
 			this.props.history.push('/');
 			alert('You Must Be Logged In To Use Site	')
