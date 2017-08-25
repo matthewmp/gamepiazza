@@ -16,7 +16,7 @@ Full Stack React Project for [Thinkful.com](http://www.thinkful.com)
 
 ## Background
 
-I always had some interest ing learning game development.  I wanted a chance to create a simple site with basic games.
+I always had some interest in learning game development.  I wanted a chance to create a simple site with basic games.
 I especially wanted to work with socket.io besides using it for a chat app.
 
 ## Summary
