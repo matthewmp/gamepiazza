@@ -14,6 +14,9 @@ Full Stack React Project for [Thinkful.com](http://www.thinkful.com)
 
 <img src = "https://raw.githubusercontent.com/mmpal78/gamepiazza/master/screenshots/score.png"  width="600" />
 
+## Video Link
+https://youtu.be/Cx4UbhtbvkM
+
 ## Background
 
 I always had some interest in learning game development.  I wanted a chance to create a simple site with basic games.
