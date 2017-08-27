@@ -68,3 +68,34 @@
 		top: 120px;
 	}
 }
+
+@media only screen and (max-height: 920px){
+	.games-wrapper{
+		width: 220px;
+		top: 120px;
+	}
+
+	.bottom-banner{
+		display: none;
+	}
+}
+
+@media only screen and (max-height: 800px){
+	.footer-wrapper{
+		padding-bottom: 100px;
+	}
+}
+
+
+@media only screen and (max-height: 700px){
+	.footer-wrapper{
+		padding-bottom: 300px;
+	}
+}
+
+
+@media only screen and (max-height: 500px){
+	.footer-wrapper{
+		padding-bottom: 500px;
+	}
+}
