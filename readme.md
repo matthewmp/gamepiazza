@@ -31,6 +31,12 @@ games.
 ## Working Prototype
 [Game Piazza](https://gamepiazza.herokuapp.com/)
 
+## Wire Frames
+<img src = "https://raw.githubusercontent.com/mmpal78/gamepiazza/master/screenshots/home-1.png"  width="600" />
+<img src = "https://raw.githubusercontent.com/mmpal78/gamepiazza/master/screenshots/gamegallery-1.png"  width="600" />
+<img src = "https://raw.githubusercontent.com/mmpal78/gamepiazza/master/screenshots/game.png"  width="600" />
+<img src = "https://raw.githubusercontent.com/mmpal78/gamepiazza/master/screenshots/scoreboard.png"  width="600" />
+
 ## Technologies
 
 * React
