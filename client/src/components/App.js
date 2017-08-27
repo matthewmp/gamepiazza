@@ -10,17 +10,11 @@ export default class App extends React.Component{
 	constructor(props){
 		super(props);
 		this.loggedIn = this.loggedIn.bind(this);
-	}
-
-	loggedIn(){
-		// this.props.history.push('/game-gallery');
-	}
+	}	
 
 	render(){
 	    return (
 	    	<div></div>
-	     
-
 	    )
 	}
 }

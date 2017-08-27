@@ -127,8 +127,6 @@ export class Pong extends React.Component{
 	      if(histFlag){
 	      	socket.emit('leaving');
 	      	clearInterval(hist);
-	        //window.location.replace(window.location.href);
-
 	      }
 	    }
 	   }, 500)
@@ -144,11 +142,9 @@ export class Pong extends React.Component{
 		let that = this;
 		
 		let socket = io.connect('/pong');
-		//window.history.pushState({page: 1}, "title 1", "");
 		window.onpopstate = function(event) {  			
 			socket.emit('leaving');
 			socket.emit('disconnect');
-			//window.location.replace('game-gallery');
 		};	
 
 		//Grab socket.io session ID
@@ -368,12 +364,10 @@ export class Pong extends React.Component{
 		function resize(){
 			if(window.innerWidth <= 650){
 				if(that.state.player){
-					console.log("Getting Right Mouse");
 					canvas.removeEventListener('mousemove', getRightMouse);
 					canvas.addEventListener('mousemove', getRightMouse);
 
 				} else {
-					console.log("Getting Left Mouse");
 					canvas.removeEventListener('mousemove', getLeftMouse);	
 					canvas.addEventListener('mousemove', getLeftMouse);
 				}
@@ -393,8 +387,6 @@ export class Pong extends React.Component{
 			that.props.dispatch(actions.saveScore(obj));
 			resetBall();
 			that.setInPlay();
-			
-			//let score = that.state.player ? that.state.right_Score : that.state.left_Score;		
 			
 			let playerList = document.getElementsByClassName('player-list')[0];
 			let leftPlayer = playerList.children[0].innerHTML;
@@ -447,7 +439,7 @@ export class Pong extends React.Component{
 					resetVsComp();				
 				}
 				else {
-					socket.emit('reset');// resetGame();
+					socket.emit('reset');
 				}
 			}
 		}
@@ -519,14 +511,8 @@ export class Pong extends React.Component{
 							resetBall();
 							timeMsg('Waiting For 2nd Player', 99999999);
 					} 	
-					// if(playerList.querySelectorAll('p')[0].innerHTML === 
-					//    playerList.querySelectorAll('p')[1].innerHTML &&
-					//    playerList.querySelectorAll('p')[0].innerHTML === that.state.name){
-					// 	window.location.reload();
-					// }
 				}
 				catch(err){
-					//window.location.reload();
 					console.log(err);
 				}
 			}
@@ -584,40 +570,39 @@ export class Pong extends React.Component{
 
 	//  Set & Show Messages On All Players Screens
 		const timeMsg = (msg, mili, funcs)=>{
-				if(that.state.showMsg){
-							that.setShowMsg();
-				}
-				this.setMsg(msg);
-				this.setShowMsg();			
-				timeOutArr.push(setTimeout(function(){
-					this.setShowMsg();				
-					if(funcs){
-						funcs.forEach(function(val){
-							switch(val){
-								case 'begin':
-								resetBall();
-								beginBall();
-								break;
+			if(that.state.showMsg){
+				that.setShowMsg();
+			}
+			this.setMsg(msg);
+			this.setShowMsg();			
+			timeOutArr.push(setTimeout(function(){
+				this.setShowMsg();				
+				if(funcs){
+					funcs.forEach(function(val){
+						switch(val){
+							case 'begin':
+							resetBall();
+							beginBall();
+							break;
 
-								case 'announce':
+							case 'announce':
+							announceState(that.state);
+							break;
+
+							case 'findLoser':
+							let loser = findLoser();
+							that.resetScore();
+							if(loser === that.state.player){			
 								announceState(that.state);
-								break;
-
-								case 'findLoser':
-								let loser = findLoser();
-								that.resetScore();
-								if(loser === that.state.player){			
-									announceState(that.state);
-								}
-								break;
-
-								default:
-								console.log("DEFAULT");
-								
 							}
-						})
-					}
-				}.bind(this), mili));
+							break;
+
+							default:
+							console.log("DEFAULT");
+						}
+					})
+				}
+			}.bind(this), mili));
 		}
 
 
@@ -654,7 +639,7 @@ export class Pong extends React.Component{
 			if(messages.length >= 10){
 				messages[0].remove();
 			}	
-			// let name = this.state.name;			
+						
 			document.getElementById('msg').innerHTML += `<p class="message"><span class="message-name">${name}:</span> ${msg}</p>`;
 		})
 
@@ -727,7 +712,6 @@ export class Pong extends React.Component{
 						</div>
 					</div>	
 				</div>
-			
 		)						
 	}
 }

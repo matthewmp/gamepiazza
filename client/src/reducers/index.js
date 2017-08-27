@@ -1,7 +1,5 @@
 import * as actions from '../actions';
 
-
-
 export const initialState = {
 	id: '',
 	email: '',
@@ -10,7 +8,6 @@ export const initialState = {
 }
 
 export const gameReducer = (state=initialState, action) => {
-	console.log(action.type);
 	if(action.type === actions.LOGIN){		
 		return Object.assign({}, state, {
 			id: action.id,
@@ -20,7 +17,6 @@ export const gameReducer = (state=initialState, action) => {
 	}
 
 	else if(action.type === actions.GET_SCORES_SUCCESS){
-		console.log('GET_SCORES_SUCCESS: ', action.data)
 		return Object.assign({}, state, {
 			user_scores: action.data
 		})

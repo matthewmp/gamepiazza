@@ -141,36 +141,18 @@ export class Pong1 extends React.Component{
 	    }
 	    else {
 	      if(histFlag){
-	        console.log("RUN CODE");
-	        console.log(window.location.href)
 	        clearInterval(hist);
-	        //window.location.replace(window.location.href);
 	      }
 	    }
 	   }, 500)
 
 		if(localStorage.user_info && !this.props.state.name){
-			console.log(this.props.state.name)
-				console.log('NO NAME');
-				console.log(JSON.parse(localStorage.user_info));
-				this.setUserState(JSON.parse(localStorage.user_info));
-				console.log(this.state)
-				console.log(JSON.parse(localStorage.user_info))
+			this.setUserState(JSON.parse(localStorage.user_info));
 		}
 		this.props.dispatch(actions.login(JSON.parse(localStorage.user_info)));
 
 		let timeOutArr = []; // hold all timeout values
 		let that = this;
-
-		// window.history.pushState({page: 1}, "title 1", "");
-		// window.onpopstate = function(event) {  			
-		// 	window.location.replace('game-gallery');
-		// };	
-
-
-
-
-
 
 		// Pong Game Code
 		let frames = 30;  // To set frame rate of animation	
@@ -198,7 +180,6 @@ export class Pong1 extends React.Component{
 			move: function(){
 				this.x += this.xs;
 				this.y += this.ys;
-				
 				
 				if(this.x - this.r < lpaddle.w){
 					if(this.y > lpaddle.y && this.y  < lpaddle.y + lpaddle.h){
@@ -233,7 +214,6 @@ export class Pong1 extends React.Component{
 						this.xs = this.xs < 0 ? this.xs - .1 : this.xs + .1; 
 						this.ys = this.ys < 0 ? this.ys - .1 : this.ys + .1;
 						
-						
 						that.rightScore(rpaddle.score); 
 						this.xs *= -1;
 						this.ys *= -1;
@@ -248,7 +228,7 @@ export class Pong1 extends React.Component{
 	                    this.reset();                
 	                    setTimeout(checkWin, 200)
 					}
-				}//
+				}
 				(this.y + this.r >= canvas.height || this.y - this.r <= 0) ? this.ys *= -1 : this.y = this.y;
 				ballC.x = this.x;
 				ballC.y = this.y;
@@ -417,7 +397,6 @@ export class Pong1 extends React.Component{
 				game: 'pong',
 				score: score
 			}
-			console.log('SAVESCORE: ', obj)
 			return obj;
 		}
 
@@ -432,45 +411,44 @@ export class Pong1 extends React.Component{
 
 		//  Set & Show Messages On All Players Screens
 		const timeMsg = (msg, mili, funcs)=>{
-				if(that.state.showMsg){
-					that.setShowMsg();
-				}
-				this.setMsg(msg);
-				this.setShowMsg();			
-				timeOutArr.push(setTimeout(function(){
-					this.setShowMsg();				
-					if(funcs){
-						funcs.forEach(function(val){
-							switch(val){
-								case 'begin':
-								
-								beginBall();
-								break;
+			if(that.state.showMsg){
+				that.setShowMsg();
+			}
+			this.setMsg(msg);
+			this.setShowMsg();			
+			timeOutArr.push(setTimeout(function(){
+				this.setShowMsg();				
+				if(funcs){
+					funcs.forEach(function(val){
+						switch(val){
+							case 'begin':
+							
+							beginBall();
+							break;
 
-								case 'announce':
+							case 'announce':
+							announceState(that.state);
+							break;
+
+							case 'findLoser':
+							let loser = findLoser();
+							that.resetScore();
+							if(loser === that.state.player){			
 								announceState(that.state);
-								break;
-
-								case 'findLoser':
-								let loser = findLoser();
-								that.resetScore();
-								if(loser === that.state.player){			
-									announceState(that.state);
-								}
-								break;
-
-								default:
-								console.log("DEFAULT");
-								
 							}
-						})
-					}
-				}.bind(this), mili));
+							break;
+
+							default:
+							console.log("DEFAULT");
+							
+						}
+					})
+				}
+			}.bind(this), mili));
 		}
 
 		function announceState(){
 			console.log(that.state);
-
 		}
 
 		function getLeftMouse(e){
@@ -498,16 +476,7 @@ export class Pong1 extends React.Component{
 	}
 }
 
-
-
-
-
-
-
-
-
 render(){
-
 		if(document.getElementsByClassName('player-list')[0]){
 			let list = document.getElementsByClassName('player-list')[0];
 			if(list.children.length === 1){
@@ -520,14 +489,12 @@ render(){
 			}			
 		}
 
-		
 		let msg = (this.state.showMsg) ? <CanvasMsg msg={this.state.msg}/> : undefined;		
 		return(	
 			<div>
 				<Header />
 				<div className="canvas-container">
 					{msg}
-
 					<canvas 
 						width="600" 
 						height="400" 
@@ -543,9 +510,6 @@ render(){
 						</div>
 					</div>	
 					<div className="player-list"></div>
-					
-					
-					
 				</div>
 			</div>
 		)						

@@ -35,7 +35,6 @@ export default class Login extends React.Component{
 		          this.xSpeed = 5;
 		          this.ySpeed = 2;
 		        }
-		        //console.log(this.x, this.y)
 		      }
 		    }
 		  }
@@ -62,10 +61,8 @@ export default class Login extends React.Component{
 		}, 30)
 	}
 	
-
 	render(){
 		return(
-
 			<section>
 				<Header />
 				<section className="main-container">
@@ -75,10 +72,7 @@ export default class Login extends React.Component{
 				         <canvas id="can"></canvas>
 				      </div>
 				    </div>
-				    
 				  </div>
-				  
-				  
 				  <div className="right-container">
 				    <div className="slogan-wrapper">
 				        <p className="slogan-title">GAME PIAZZA</p>
@@ -88,15 +82,12 @@ export default class Login extends React.Component{
 				        <p className="description">
 				          Play single / multiplayer games.  Keep track of games played, scores, and stats.  Message other players while in multiplayer games.  Have fun!
 				        </p>
-				      
 				      <div className="button-wrapper">
 				        <Fb />
 				      </div>
 				    </div>
-				    
 				  </div>
 				</section>
-					
 				<Footer />	 
 			</section>
 		)

@@ -16,7 +16,6 @@ export default class Header extends React.Component{
 		this.setState({
 			mobile: !this.state.mobile
 		})
-		console.log(this.state.mobile)
 	}
 	
 

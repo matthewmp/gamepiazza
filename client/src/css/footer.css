@@ -17,8 +17,6 @@ footer{
   text-align: center;
 }
 
-
-
 .fa fa-github fa-lg{
 	position: relative;
     top: 50%;
@@ -43,7 +41,6 @@ a{
 .f-white{
 	color: #fff;
 }
-
 
 @media only screen and (max-height: 420px){
     .footer{

@@ -26,7 +26,6 @@ router.post('/', (req, res) => {
 		
 		
 	}
-	console.log(statDetails)
 
 	Users.findOneAndUpdate(
 		{email: statDetails.email},
@@ -50,7 +49,6 @@ router.post('/pong', (req, res) => {
 		score: info.score
 	})
 	.then(response => {
-		console.log('Create Response: ', response);
 		res.status(201).json({result: response});
 	})
 	.catch(err => console.log(err));

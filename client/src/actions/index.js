@@ -11,9 +11,7 @@ export const login = (user_info) => ({
   id: user_info.id
 })
 
-
 export const saveScore = score_info => dispatch => {	
-console.log('INSIDE saveScore')
 	const url = '/score';
 	fetch(url, {
 		method: 'POST',
@@ -24,7 +22,6 @@ console.log('INSIDE saveScore')
 	})
 	.then(response => response.json())
 	.then(function(data){
-		console.log(`Data From Server Received`);
 	}).catch(err => console.error(err))
 }
 
@@ -40,7 +37,6 @@ export const saveToScoreBoard = score_info => dispatch => {
 	})
 	.then(response => response.json())
 	.then(function(data){
-		console.log(`Data From Server: ${JSON.stringify(data, null, 4)}`)
 	}).catch(err => console.error(err))
 }
 
@@ -51,17 +47,14 @@ export const getScores = email => dispatch => {
 	})
 	.then(response => response.json())
 	.then(function(data){
-		console.log('Data: ', data);
 		dispatch(getScoresSuccess(data));
 	}).catch(err => console.error(err))
 }
 
 export const GET_SCORES_SUCCESS = 'GET_SCORES_SUCCESS';
 export const getScoresSuccess = (data) => ({	
-	
-		type: GET_SCORES_SUCCESS,
-		data
-	
+	type: GET_SCORES_SUCCESS,
+	data
 })
 
 export const validateUser = user_info => dispatch => {
@@ -75,6 +68,5 @@ export const validateUser = user_info => dispatch => {
 	})
 	.then(response => response.json())
 	.then(function(data){
-		console.log(data);
 	}).catch(err => console.error(err));
 }

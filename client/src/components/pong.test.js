@@ -8,7 +8,6 @@ import {createStore, applyMiddleware} from 'redux';
 import {Pong} from './pong';
 import { initialState as featureComponent } from '../reducers';
 
-
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 describe('<Pong />', () => {
@@ -19,13 +18,4 @@ describe('<Pong />', () => {
 			</Provider>
 		);
 	});
-
-	// it('Checks for other nodes existance', () => {
-	// 	const store= mockStore({featureComponent})
-	// 	const wrapper = shallow(
-			
-	// 			<Pong store={store}/>
-		
-	// 	);
-	// });
 });

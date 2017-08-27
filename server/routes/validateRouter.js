@@ -12,11 +12,7 @@ router.put('/', (req, res) => {
 	else{
 		email = req.body.email;
 	}
-	console.log(`VALIDATE: ${email}`)
 	let name = req.body.name;
-
-	console.log('BODY: ', req.body)
-
 	let user = Users.count({email: email}, function(err, count){
 
 		if(count <= 0){
@@ -25,7 +21,6 @@ router.put('/', (req, res) => {
 				name: name
 			})
 			.then(response => {
-				console.log('Create Response: ', response);
 				res.status(201).json({name: response.name, email: response.email});
 			})
 		} else {

@@ -9,7 +9,6 @@ import {Games} from './games';
 export class gameGallery extends React.Component{
 	constructor(props){
 		super(props);
-		console.log('LOCAL: ', localStorage)
 	}
 
 	componentDidMount(){
@@ -19,20 +18,16 @@ export class gameGallery extends React.Component{
 		}
 		
 		if(localStorage.user_info && !this.props.state.name){
-			console.log('NO NAME');
-			console.log(JSON.parse(localStorage.user_info));
 			this.props.dispatch(actions.login(JSON.parse(localStorage.user_info)));
 		}		
 	}
 
 	render(){
-		console.log('Game Gallery State: ', this.props.state)
 		return(
 
 			<section className="game-gallery">
 				<Header />
 				<Games />
-				
 				<Footer />
 			</section>
 		)

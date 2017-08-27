@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var usersSchema = mongoose.Schema({
-
 	email: String,
 	name: String,
 	stats: [{
@@ -12,7 +11,6 @@ var usersSchema = mongoose.Schema({
 		date: String,
 		score: { type: Number, default: 0 }
 	}]
-
 });
 
 var Users = mongoose.model('users', usersSchema);

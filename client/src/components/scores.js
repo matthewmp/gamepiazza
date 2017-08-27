@@ -6,17 +6,12 @@ export default class Score extends React.Component{
 	}
 
 	render(){
-		return(
-			
-				<tr>
-					<td>{this.props.data.date}</td>
-					<td>{this.props.data.game}</td>
-					<td>{this.props.data.score}</td>
-				</tr>
-
-	
+		return(	
+			<tr>
+				<td>{this.props.data.date}</td>
+				<td>{this.props.data.game}</td>
+				<td>{this.props.data.score}</td>
+			</tr>
 		)
 	}
-	//return 
-	//console.log("SCORES COMP: ", this.props)
 }

@@ -28,7 +28,6 @@ router.post('/', function (req, res) {
 		}]
 
 	};
-	console.log(statDetails);
 
 	Users.findOneAndUpdate({ email: statDetails.email }, { $push: { stats: statDetails.stats[0] } }, { new: true }).exec().then(function (resp) {
 		res.status(201).json({ game: resp });
@@ -46,7 +45,6 @@ router.post('/pong', function (req, res) {
 		date: new Date().toDateString(),
 		score: info.score
 	}).then(function (response) {
-		console.log('Create Response: ', response);
 		res.status(201).json({ result: response });
 	}).catch(function (err) {
 		return console.log(err);
