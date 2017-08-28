@@ -196,7 +196,7 @@ export class Pong1 extends React.Component{
 	                   
 	                    let deltaY = this.y; 
 	                    -(lpaddle.y + PADDLE_HEIGHT / 2);
-	                    this.ys = deltaY * 0.025;                                        
+	                    this.ys = deltaY * 0.015;                                        
 					}
 					else {
 						that.leftMiss();
@@ -220,7 +220,7 @@ export class Pong1 extends React.Component{
 	                    
 	                    let deltaY = this.y; 
 	                    -(rpaddle.y + PADDLE_HEIGHT / 2);
-	                    this.ys = deltaY * 0.025;                    
+	                    this.ys = deltaY * 0.015;                    
 					}
 					else {
 						that.rightMiss();
@@ -329,7 +329,7 @@ export class Pong1 extends React.Component{
 		// Set Initial Ball Speed
 		function beginBall(){
 			ball.xs = 4;
-			ball.ys = Math.floor(Math.random(1) * 3);
+			ball.ys = 4;
 		}	
 
 		// Reset Game & Scores

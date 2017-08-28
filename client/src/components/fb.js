@@ -12,7 +12,6 @@ export class Login extends React.Component{
 
   responseFacebook (response) {
     localStorage.setItem('user_info', JSON.stringify(response));
-    console.log(localStorage);
     this.props.dispatch(actions.login(response));
     this.props.dispatch(actions.validateUser(response));
   }
