@@ -6,6 +6,55 @@ import Footer from './footer';
 import '../css/login.css';
 
 export default class Login extends React.Component{
+	constructor(props){
+		super(props);
+		this.state = {
+			logged: false,
+			showWelcome: false
+		}
+	}
+
+	welcome = () => {
+		try{
+			let user = JSON.parse(localStorage.user_info);	
+			if(user.email){
+				this.setState({
+					logged: !this.state.logged,
+				})
+			}
+		}
+		catch(err){
+			alert(err);
+		}
+		
+		
+	}
+
+	showWelcome = () => {
+		try{
+			let user = JSON.parse(localStorage.user_info);	
+			if(user.email){
+				this.setState({
+					showWelcome: true
+				})
+			}
+		}
+		catch(err){
+			alert(err);
+		}
+		
+	}
+
+	hideWelcome = () => {
+		this.setState({
+			showWelcome: false
+		})
+	}
+
+	hideLogOut = () => {
+		document.getElementsByClassName('out')[0].style.display = 'none';
+	}
+	
 
 	componentDidMount(){
 		let can = document.getElementById('can');
@@ -47,9 +96,6 @@ export default class Login extends React.Component{
 		  ballArr.push(ball);
 		}
 
-
-
-
 		setInterval(function(){
 		  ctx.fillStyle = '#fff';
 		  ctx.fillRect(0, 0, can.width, can.height);
@@ -62,10 +108,20 @@ export default class Login extends React.Component{
 	}
 	
 	render(){
+		let welcome = this.state.showWelcome ? 'logged' : 'logged-hide';	
+			
 		return(
 			<section>
-				<Header />
+				<Header log={this.state.logged} welcome={this.welcome}/>
 				<section className="main-container">
+				<div className={welcome}>
+					<p className="welcome">You are Logged In</p>
+				    <button onClick={this.hideWelcome}>Close</button>
+				</div>
+				<div className="logged out">
+					<p className="welcome">Logged Out!</p>
+				    <button onClick={this.hideLogOut}>Close</button>
+				</div>
 				  <div className="left-container">
 				    <div className="outer-console">
 				       <div className="outer-tv">
@@ -83,7 +139,7 @@ export default class Login extends React.Component{
 				          Play single / multiplayer games.  Keep track of games played, scores, and stats.  Message other players while in multiplayer games.  Have fun!
 				        </p>
 				      <div className="button-wrapper">
-				        <Fb />
+				        <Fb login={this.welcome} showWelcome={this.showWelcome}/>
 				      </div>
 				    </div>
 				  </div>
