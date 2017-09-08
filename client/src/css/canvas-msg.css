@@ -1,13 +1,13 @@
+
+
 .canvas-msg{
 	width: 500px;
     height: 300px;
     background: #113340;
     position: absolute;
-    top: 170px;
-    left: 0;
-    right: 0;
-    margin-right: auto;
-    margin-left: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     color: #fff;
     font-family: 'Poppins';
     font-size: 1.3em;
@@ -20,6 +20,10 @@
         width: 400px;
         height: 250px;
     }
+
+    .canvas-ins{
+        width: 80%;
+    }
     
 }
 
@@ -27,7 +31,6 @@
     .canvas-msg{
         top: 190px;
         width: 300px;
-        height: 150px;
         font-size: 10px;
     }
 }
@@ -53,4 +56,24 @@
         height: 100px;
         top: 140px;
     }
+}
+
+/* Canvas Instructions */
+
+.canvas-ins{
+    position: absolute;
+    max-width: 500px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -70%);
+    font-family: 'Roboto';
+    background: #113340;
+    color: #fff;
+    padding: 20px;
+}
+
+.canvas-ins button {
+    width: 100px;
+    margin-top: 20px;
+    height: 40px;
 }

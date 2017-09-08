@@ -124,6 +124,10 @@ export class Pong1 extends React.Component{
 		})
 	}
 
+	hideIns = () => {
+		document.getElementsByClassName('canvas-ins')[0].style.display = 'none';
+	}
+
 	componentDidMount(){
 	if(!localStorage.user_info){
 			this.props.history.push('/');
@@ -150,6 +154,12 @@ export class Pong1 extends React.Component{
 			this.setUserState(JSON.parse(localStorage.user_info));
 		}
 		this.props.dispatch(actions.login(JSON.parse(localStorage.user_info)));
+
+		document.getElementById('close-ins').addEventListener('click', function(){
+			document.getElementsByClassName('canvas-ins')[0].style.display = 'none';
+			timeMsg('Begining Game in 5 Seconds', 5000, ['begin'])
+
+		})
 
 		let timeOutArr = []; // hold all timeout values
 		let that = this;
@@ -469,7 +479,7 @@ export class Pong1 extends React.Component{
 			vsComp = true;
 			requestAnimationFrame(start);	
 			
-			timeMsg('Begining Game in 5 Seconds', 5000, ['begin']);
+			//timeMsg('Begining Game in 5 Seconds', 9999999, ['begin']);
 		}
 
 		initialize();
@@ -494,6 +504,13 @@ render(){
 			<div>
 				<Header />
 				<div className="canvas-container">
+				<div className="canvas-ins">
+					<p>Get the highest score possible.  Each time you stop the ball from passing your paddle
+					you get 100 points.  Each time the computer misses you receive 100 points.  If you miss 3 times
+					you lose.  As time goes by the ball will increase speed and the paddles will shrink. If you leave
+					the game early your score will still be recorded</p>
+					<button id="close-ins" onClick={this.hideIns}>Close</button>
+				</div>
 					{msg}
 					<canvas 
 						width="600" 

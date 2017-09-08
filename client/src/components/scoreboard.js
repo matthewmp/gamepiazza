@@ -32,6 +32,9 @@ export class Scoreboard extends React.Component{
 	let footWrap = document.getElementsByClassName('footer-wrapper')[0];
 	footWrap.style.height = '30px';
 	footWrap.style.paddingBottom = '135px';
+	window.addEventListener('scroll', function(){
+		document.getElementsByClassName('footer-wrapper')[0].style.position = 'static'
+	})
 			
 	if(!localStorage.user_info){
 			this.props.history.push('/');
