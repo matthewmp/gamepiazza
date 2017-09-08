@@ -7,7 +7,8 @@ export default class Header extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			mobile: false
+			mobile: false,
+			showLogOut: false
 		}
 		this.showMobile = this.showMobile.bind(this);
 	}
@@ -15,8 +16,22 @@ export default class Header extends React.Component{
 	showMobile(){
 		this.setState({
 			mobile: !this.state.mobile
-		})
+		})		
 	}
+
+	logout = () => {
+		setTimeout(function(){
+			localStorage.removeItem('user_info');
+		}, 1000)
+
+		try{
+			document.getElementsByClassName('out')[0].style.display = 'block';	
+		}
+		catch(err){
+			console.log(err);
+		}
+	}
+
 	
 
 	render(){
@@ -36,6 +51,7 @@ export default class Header extends React.Component{
 			        <Link to="/"><li className="burger-item">Home</li></Link>
 			        <Link to="/game-gallery"><li className="burger-item">Game Gallery</li></Link>
 			        <Link to="/scoreboard"><li className="burger-item">My Scoreboard</li></Link>
+			        <Link to="/"><li onClick={this.logout} className="burger-item">Log Out</li></Link>
 			      </ul>
 			    </div>
 
@@ -50,6 +66,7 @@ export default class Header extends React.Component{
 			        <Link to="/"><li className="nav-item">Home</li></Link>
 			        <Link to="/game-gallery"><li className="nav-item">Game Gallery</li></Link>
 			        <Link to="/scoreboard"><li className="nav-item">My Scoreboard</li></Link>
+			        <Link to="/"><li onClick={this.logout} className="nav-item logout-show">Log Out</li></Link>
 			      </ul>
 			    </div>
 			  </nav>

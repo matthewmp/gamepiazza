@@ -59,6 +59,7 @@ export const getScoresSuccess = (data) => ({
 
 export const validateUser = user_info => dispatch => {
 	const url = '/validate';
+	console.log('USER: ', user_info)
 	fetch(url, {
 		method: 'PUT',
 		headers: {

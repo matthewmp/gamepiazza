@@ -1,12 +1,16 @@
 .score-board-view{
+	height: 100vh;
 	position: relative;
 }
 
 .scores{
-	min-height: 100vh;
 	text-align: center;
 	margin-top: 20px;
 	margin: 50px auto;
+}
+
+tbody{
+	height: 20px;
 }
 
 tr{

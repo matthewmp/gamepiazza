@@ -1,5 +1,7 @@
 .canvas-container{
 	text-align: center;
+	position: relative;
+	max-height: 500px;
 }
 
 canvas{
